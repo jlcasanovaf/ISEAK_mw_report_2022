@@ -1,0 +1,555 @@
+-------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\Jorgec\ISEAK mw report 2022\00. Data processing\00. MCVL\log\00. Load MCVL 
+> data 20230122.log
+  log type:  text
+ opened on:  22 Jan 2023, 22:19:17
+
+. 
+.         
+. ********************************************************************************
+. * C. Load personal data
+. ********************************************************************************
+.         
+.         forval wave = 2017/2019 {
+  2.                 insheet using "$raw/MCVL`wave'/MCVL`wave'PERSONAL.TXT", delimiter(";")
+>  clear
+  3.                         
+.                         ren (v1-v10) (identpers fnacim sexo nacionalidad provnac provpria
+> f domicilio ffallec paisnac educacion)
+  4. 
+.                         * Birth date
+.                         tostring fnacim, replace
+  5.                         gen year_birth = real(substr(fnacim,1,4))
+  6.                         gen month_birth = real(substr(fnacim,5,.))
+  7.                         drop fnacim
+  8.                         gen fnacim = ym(year_birth, month_birth)
+  9.                         format fnacim %tm
+ 10.                         drop if mi(fnacim)
+ 11.                         drop year_birth month_birth
+ 12.                         
+.                         * Age in january 2018
+.                         gen int edad = (ym(2019,1) - fnacim)/12         
+ 13.                         drop if mi(edad)
+ 14.                         label var edad "Age in Jan-2018"
+ 15.                         
+.                         gen edad_cat = 1 if inrange(edad, 16, 25)
+ 16.                         replace edad_cat = 2 if inrange(edad, 26, 35)
+ 17.                         replace edad_cat = 3 if inrange(edad, 36, 44)
+ 18.                         replace edad_cat = 4 if inrange(edad, 45, 54)
+ 19.                         replace edad_cat = 5 if edad >= 56
+ 20.                         
+.                         cap label define edad_cat 1 "16-25 años" 2 "26-35 años" 3 "36-44 
+> años" 4 "45-54 años" 5 "Más de 56 años"
+ 21.                         label values edad_cat edad_cat 
+ 22.                         
+.                         * Age dummy
+.                         gen menor_30 = (edad<=30)                       
+ 23.                                                         
+.                         * Gender
+.                         gen female=(sexo==2)
+ 24.                         drop sexo
+ 25.                         ren female sexo
+ 26.                         cap label define sexo 0 "Male" 1 "Female"
+ 27.                         label values sexo sexo
+ 28.                         
+.                         * Spanish nationality
+.                         gen espanol=(nacionalidad=="N00")
+ 29.                         
+.                         encode nacionalidad, gen(nat2)
+ 30.                         drop nacionalidad
+ 31.                         ren nat2 nacionalidad
+ 32. 
+.                         encode paisnac, gen(cob2)
+ 33.                         drop paisnac
+ 34.                         ren cob2 paisnac
+ 35.                         
+.                         * Province of birth
+.                         destring provnac, replace
+ 36.                         replace provnac = . if provnac == 66 | provnac == 0
+ 37.                 
+.                         * Province first afiliation
+.                         destring provpriaf, replace
+ 38.                         replace provpriaf = . if provpriaf == 66 | provpriaf == 0
+ 39. 
+.                         * Death date
+.                         tostring ffallec, replace
+ 40.                         gen year_death = real(substr(ffallec,1,4))
+ 41.                         gen month_death = real(substr(ffallec,5,.))
+ 42.                         drop ffallec
+ 43.                         gen ffallec = ym(year_death, month_death)
+ 44.                         format ffallec %tm
+ 45.                         drop year_death month_death
+ 46.                         
+.                         *Zipcode of residence
+.                         replace domicilio = . if domicilio == 0
+ 47.                         
+.                 compress
+ 48.                 
+.                 sort identpers
+ 49.                 save "$dta\00. Personal data `wave'.dta", replace
+ 50.         }
+(10 vars, 1,228,119 obs)
+fnacim already string; no replace
+(169 missing values generated)
+(169 missing values generated)
+(176 missing values generated)
+(176 observations deleted)
+(0 observations deleted)
+(1,157,994 missing values generated)
+(181,217 real changes made)
+(231,928 real changes made)
+(248,397 real changes made)
+(472,495 real changes made)
+provnac already numeric; no replace
+(185,895 real changes made, 185,895 to missing)
+provpriaf already numeric; no replace
+(1,269 real changes made, 1,269 to missing)
+ffallec was long now str6
+(1,206,930 missing values generated)
+(1,206,930 missing values generated)
+(9,664 real changes made, 9,664 to missing)
+  variable fnacim was float now int
+  variable edad_cat was float now byte
+  variable menor_30 was float now byte
+  variable sexo was float now byte
+  variable espanol was float now byte
+  variable nacionalidad was long now byte
+  variable paisnac was long now byte
+  variable ffallec was float now int
+  (27,014,746 bytes saved)
+file E:\Jorgec\ISEAK mw report 2022\00. Data processing\00. MCVL\dta\00. Personal data 2017
+> .dta saved
+(10 vars, 1,248,050 obs)
+fnacim already string; no replace
+(143 missing values generated)
+(143 missing values generated)
+(156 missing values generated)
+(156 observations deleted)
+(0 observations deleted)
+(1,158,795 missing values generated)
+(186,660 real changes made)
+(234,897 real changes made)
+(250,234 real changes made)
+(462,618 real changes made)
+provnac already numeric; no replace
+(196,982 real changes made, 196,982 to missing)
+provpriaf already numeric; no replace
+(1,114 real changes made, 1,114 to missing)
+ffallec was long now str6
+(1,223,979 missing values generated)
+(1,223,979 missing values generated)
+(10,085 real changes made, 10,085 to missing)
+  variable fnacim was float now int
+  variable edad_cat was float now byte
+  variable menor_30 was float now byte
+  variable sexo was float now byte
+  variable espanol was float now byte
+  variable nacionalidad was long now byte
+  variable paisnac was long now byte
+  variable ffallec was float now int
+  (27,453,668 bytes saved)
+file E:\Jorgec\ISEAK mw report 2022\00. Data processing\00. MCVL\dta\00. Personal data 2018
+> .dta saved
+(10 vars, 1,268,856 obs)
+fnacim already string; no replace
+(140 missing values generated)
+(140 missing values generated)
+(140 missing values generated)
+(140 observations deleted)
+(0 observations deleted)
+(1,160,771 missing values generated)
+(191,373 real changes made)
+(237,906 real changes made)
+(252,996 real changes made)
+(453,081 real changes made)
+provnac already numeric; no replace
+(203,564 real changes made, 203,564 to missing)
+provpriaf already numeric; no replace
+(952 real changes made, 952 to missing)
+ffallec was long now str6
+(1,248,867 missing values generated)
+(1,248,867 missing values generated)
+(8,226 real changes made, 8,226 to missing)
+  variable fnacim was float now int
+  variable edad_cat was float now byte
+  variable menor_30 was float now byte
+  variable sexo was float now byte
+  variable espanol was float now byte
+  variable nacionalidad was long now byte
+  variable paisnac was long now byte
+  variable ffallec was float now int
+  (27,911,752 bytes saved)
+file E:\Jorgec\ISEAK mw report 2022\00. Data processing\00. MCVL\dta\00. Personal data 2019
+> .dta saved
+
+. 
+. ********************************************************************************
+. * D. Load affiliation data
+. ********************************************************************************
+.         
+.         forval x=1/4 {
+  2.                 clear
+  3.                 insheet using "$raw/MCVL2019/MCVL2019AFILIAD`x'.TXT", delimiter(";") 
+  4. 
+.                 rename v1 identpers
+  5.                 rename v2 regcot
+  6.                 rename v3 grupcot
+  7.                 rename v4 tipcont
+  8.                 rename v5 coefparc
+  9.                 rename v6 falta
+ 10.                 rename v7 fbaja
+ 11.                 rename v8 causabaja
+ 12.                 rename v9 minusv
+ 13.                 rename v10 identccc2
+ 14.                 rename v11 domccc2
+ 15.                 rename v12 cnae09
+ 16.                 rename v13 numtrab
+ 17.                 rename v14 fantigemp
+ 18.                 rename v15 trl
+ 19.                 rename v16 colecttrabaj
+ 20.                 rename v17 tipempleador
+ 21.                 rename v18 tipempleadorcif
+ 22.                 rename v19 identccc1
+ 23.                 rename v20 provccc1
+ 24.                 rename v21 fmodcont1
+ 25.                 rename v22 tipconmod1
+ 26.                 rename v23 cparcmod1
+ 27.                 rename v24 fmodcont2
+ 28.                 rename v25 tipconmod2
+ 29.                 rename v26 cparcmod2
+ 30.                 rename v27 fmodgrup1
+ 31.                 rename v28 grupcotmod1
+ 32.                 rename v29 cnae93
+ 33.                 rename v30 indsetaagraria
+ 34.                 rename v31 trlotras
+ 35.                 rename v32 faltaefecto
+ 36.                 rename v33 fbajaefecto 
+ 37. 
+.                 label var identpers "ID"
+ 38.                 label var regcot "Contribution regime"
+ 39.                 label var grupcot "Contribution group"
+ 40.                 label var tipcont "Type of contract"
+ 41.                 label var coefparc "Partiality coef"
+ 42.                 label var falta "Date of begin"
+ 43.                 label var fbaja "Date of end"
+ 44.                 label var causabaja "Reason of end"
+ 45.                 label var minusv "Disability"
+ 46.                 label var identccc2 "Firm x Muni ID"
+ 47.                 label var domccc2 "Firm x Muni zip code"
+ 48.                 label var cnae09 "Firm x Muni sector (CNAE09)"
+ 49.                 label var numtrab "Firm x Muni num workers"
+ 50.                 label var fantigemp "Firm x Muni date of begin of the first worker" 
+ 51.                 label var trl "Firm x Muni type of labor relation"
+ 52.                 label var colecttrabaj "Firm x Muni special group"
+ 53.                 label var tipempleador "Type of employer"
+ 54.                 label var tipempleadorcif "Employer's type of firm"
+ 55.                 label var identccc1 "Firm ID"
+ 56.                 label var provccc1 "Firm province"
+ 57.                 label var fmodcont1 "Date of change of the inicial type of contract or
+>  partiality coef"
+ 58.                 label var tipconmod1  "First type of contract"
+ 59.                 label var cparcmod1 "First partiality coef"
+ 60.                 label var fmodcont2 "Date of change of the second type of contract or 
+> partiality coef" 
+ 61.                 label var tipconmod2 "Second type of contract"
+ 62.                 label var cparcmod2 "Second partiality coef"
+ 63.                 label var fmodgrup1 "Date of change of initial contribution group" 
+ 64.                 label var grupcotmod1 "Initial contribution group"
+ 65.                 label var cnae93 "Firm x Muni sector (CNAE93)"
+ 66.                 label var indsetaagraria "Sistema especial de trabajadores agrarios (S
+> ETA)"
+ 67.                 label var trlotras "Type of relations with other entities"
+ 68.                 label var faltaefecto "Effective date of begin"
+ 69.                 label var fbajaefecto "Effective date of end"
+ 70. 
+.                 qui compress    
+ 71.                 tempfile afiliad`x'
+ 72.                 save `afiliad`x'',replace
+ 73.          }
+(33 vars, 7,038,298 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000001.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000001.tmp saved
+(33 vars, 6,949,302 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000002.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000002.tmp saved
+(33 vars, 6,997,764 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000003.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000003.tmp saved
+(33 vars, 6,334,192 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000004.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000004.tmp saved
+
+.         
+.         use `afiliad1',clear
+
+.         
+.         forval x=2/4 {
+  2.                 append using `afiliad`x''
+  3.         }
+
+. 
+.         duplicates drop identpers falta fbaja identccc2, force
+
+Duplicates in terms of identpers falta fbaja identccc2
+
+(2,849 observations deleted)
+
+.         
+.         * Clean dates
+.         foreach date in falta fbaja faltaefecto fbajaefecto fantigemp fmodcont1 fmodcont2
+>  fmodgrup1 {
+  2.                 tostring `date', replace
+  3.                 gen year = real(substr(`date',1,4))
+  4.                 gen month = real(substr(`date',5,2))
+  5.                 gen day = real(substr(`date',7,.))
+  6.                 drop `date'
+  7.                 gen `date' = mdy(month, day, year)
+  8.                 format `date' %td
+  9.                 drop year month day
+ 10.         }
+falta was long now str8
+(200 missing values generated)
+fbaja was long now str8
+(3 missing values generated)
+(3 missing values generated)
+(5 missing values generated)
+faltaefecto was long now str8
+(200 missing values generated)
+fbajaefecto was long now str8
+(3 missing values generated)
+(3 missing values generated)
+(5 missing values generated)
+fantigemp was long now str8
+(1,077,133 missing values generated)
+(1,077,133 missing values generated)
+(1,086,560 missing values generated)
+fmodcont1 already string; no replace
+(25,976,058 missing values generated)
+(25,976,058 missing values generated)
+(25,976,058 missing values generated)
+(25,976,058 missing values generated)
+fmodcont2 already string; no replace
+(26,118,999 missing values generated)
+(26,118,999 missing values generated)
+(26,118,999 missing values generated)
+(26,118,999 missing values generated)
+fmodgrup1 already string; no replace
+(26,830,199 missing values generated)
+(26,830,199 missing values generated)
+(26,830,199 missing values generated)
+(26,830,199 missing values generated)
+
+.         
+.         save "$dta/00. Affiliation data.dta", replace
+file E:\Jorgec\ISEAK mw report 2022\00. Data processing\00. MCVL\dta/00. Affiliation data.d
+> ta saved
+
+.         
+. 
+. ********************************************************************************
+. * E. Contribution data
+. ********************************************************************************
+. 
+.         * Import the data
+.         forval a=1/13{
+  2.                 clear
+  3.                 set more off
+  4.                 insheet using "$raw/MCVL2019/MCVL2019COTIZA`a'.TXT", delimiter(";") 
+  5. 
+.                 rename v1 identpers
+  6.                 rename v2 identccc2
+  7.                 rename v3 anocot
+  8.                 rename v4 base1
+  9.                 rename v5 base2
+ 10.                 rename v6 base3
+ 11.                 rename v7 base4
+ 12.                 rename v8 base5
+ 13.                 rename v9 base6
+ 14.                 rename v10 base7
+ 15.                 rename v11 base8
+ 16.                 rename v12 base9
+ 17.                 rename v13 base10
+ 18.                 rename v14 base11
+ 19.                 rename v15 base12
+ 20.                 rename v16 basetot
+ 21. 
+.                 qui compress
+ 22.                 tempfile f`a'
+ 23.                 save `f`a'',replace
+ 24.          }
+(16 vars, 2,364,971 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000005.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000005.tmp saved
+(16 vars, 2,374,617 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000006.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000006.tmp saved
+(16 vars, 2,385,888 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000007.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000007.tmp saved
+(16 vars, 2,359,575 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000008.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000008.tmp saved
+(16 vars, 2,364,726 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000009.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000009.tmp saved
+(16 vars, 2,361,200 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000a.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000a.tmp saved
+(16 vars, 2,368,704 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000b.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000b.tmp saved
+(16 vars, 2,366,672 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000c.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000c.tmp saved
+(16 vars, 2,342,071 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000d.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000d.tmp saved
+(16 vars, 2,347,594 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000e.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000e.tmp saved
+(16 vars, 2,170,393 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000f.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000f.tmp saved
+(16 vars, 1,361,246 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000g.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000g.tmp saved
+(16 vars, 5,670,023 obs)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000h.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000h.tmp saved
+
+.         
+.         * General regime
+.          use `f1',clear
+
+.          
+.          forval x=2/12 {
+  2.                 append using `f`x''
+  3.          }
+
+.  
+.         * Fix mistakes of monthly contributions // TBC
+. *       forval x=1(1)12{
+. *               replace base`x'=-base`x' if base`x'<0
+. *       }       
+.         
+.                 ** Adjust contributions to euros instead of cents of euros
+.                 forval x=1(1)12{
+  2.                 replace base`x'=base`x'/100
+  3.                 }       
+variable base1 was long now double
+(16,350,313 real changes made)
+variable base2 was long now double
+(16,206,740 real changes made)
+variable base3 was long now double
+(16,348,387 real changes made)
+variable base4 was long now double
+(16,443,560 real changes made)
+variable base5 was long now double
+(16,621,769 real changes made)
+variable base6 was long now double
+(16,795,641 real changes made)
+variable base7 was long now double
+(16,818,765 real changes made)
+variable base8 was long now double
+(16,734,381 real changes made)
+variable base9 was long now double
+(17,110,041 real changes made)
+variable base10 was long now double
+(17,061,066 real changes made)
+variable base11 was long now double
+(16,984,365 real changes made)
+variable base12 was long now double
+(17,052,543 real changes made)
+
+.                 
+.                 ** Collapse data to one row per year x firm x person
+.                 foreach x in base1 base2 base3 base4 base5 base6 base7 base8 base9 base10
+>  base11 base12 basetot {
+  2.                         bysort identpers identccc2 anocot: egen `x'_new=total(`x')
+  3.                         drop `x'
+  4.                         rename `x'_new `x'
+  5.                 }
+
+. 
+.                 duplicates drop identpers identccc2 anocot, force
+
+Duplicates in terms of identpers identccc2 anocot
+
+(0 observations are duplicates)
+
+.                 
+.                 compress
+  (0 bytes saved)
+
+.                 sort identpers identccc2 anocot
+
+.                 
+.                 save "$dta\00. Contribution data.dta",replace
+file E:\Jorgec\ISEAK mw report 2022\00. Data processing\00. MCVL\dta\00. Contribution data.
+> dta saved
+
+. 
+.         * Special regime        
+.         use `f13', clear
+
+.         
+.                 ** Adjust contributions to euros instead of cents of euros
+.                 forval x=1(1)12{
+  2.                 replace base`x'=base`x'/100
+  3.                 }       
+variable base1 was long now double
+(4,868,647 real changes made)
+variable base2 was long now double
+(4,884,530 real changes made)
+variable base3 was long now double
+(4,903,345 real changes made)
+variable base4 was long now double
+(4,924,375 real changes made)
+variable base5 was long now double
+(4,949,270 real changes made)
+variable base6 was long now double
+(4,964,863 real changes made)
+variable base7 was long now double
+(4,969,700 real changes made)
+variable base8 was long now double
+(4,956,903 real changes made)
+variable base9 was long now double
+(4,978,308 real changes made)
+variable base10 was long now double
+(4,992,796 real changes made)
+variable base11 was long now double
+(4,997,190 real changes made)
+variable base12 was long now double
+(5,004,972 real changes made)
+
+.                 
+.                 ** Collapse data to one row per year x firm x person
+.                 foreach x in base1 base2 base3 base4 base5 base6 base7 base8 base9 base10
+>  base11 base12 basetot {
+  2.                         bysort identpers identccc2 anocot: egen `x'_new=total(`x')
+  3.                         drop `x'
+  4.                         rename `x'_new `x'
+  5.                 }
+
+. 
+.                 duplicates drop identpers identccc2 anocot, force
+
+Duplicates in terms of identpers identccc2 anocot
+
+(0 observations are duplicates)
+
+.                 
+.                 compress
+  (0 bytes saved)
+
+.                 sort identpers identccc2 anocot
+
+.                 
+.                 save "$dta\00. Contribution data special regime.dta",replace
+file E:\Jorgec\ISEAK mw report 2022\00. Data processing\00. MCVL\dta\00. Contribution data 
+> special regime.dta saved
+
+.         
+. * End of this dofile
+. cap log close

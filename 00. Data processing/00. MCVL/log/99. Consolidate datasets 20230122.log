@@ -1,0 +1,272 @@
+-------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\Jorgec\ISEAK mw report 2022\00. Data processing\00. MCVL\log\99. Consolidat
+> e datasets 20230122.log
+  log type:  text
+ opened on:  22 Jan 2023, 23:22:34
+
+. 
+.         
+. ********************************************************************************
+. * C. Load and merge the data
+. ********************************************************************************
+.         
+.         use "$dta\01. Harmonised affiliation data.dta", clear   
+
+.                 
+.                 *Hourly wages
+.                 merge 1:1 identpers identccc2 t using "$dta/03. Hourly wages.dta", nogen 
+> assert(3) keep(3) keepusing(hourly_wages hours_worked days_worked date base)
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             0
+    matched                        16,095,600  
+    -----------------------------------------
+
+.                 
+.                 * Personal data
+.                 merge m:1 identpers using "$dta/00. Personal data 2019.dta" // individual
+> s dropped have missing dates
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                       599,266
+        from master                     1,152  (_merge==1)
+        from using                    598,114  (_merge==2)
+
+    matched                        16,094,448  (_merge==3)
+    -----------------------------------------
+
+.                 
+.                 qui unique identpers if _m == 1
+
+.                 di as txt "Number of workers dropped due to missing date of birth:" %5.0f
+> c `r(unique)'          
+Number of workers dropped due to missing date of birth:   48
+
+.                         
+.                 qui unique identpers if _m == 2
+
+.                 di as txt "Number of workers dropped due to other reasons:" %5.0fc `r(uni
+> que)'                                  
+Number of workers dropped due to other reasons:598114
+
+.                         
+.                 keep if _m == 3
+(599,266 observations deleted)
+
+.                 drop _m
+
+.                         
+. ********************************************************************************
+. * D. Filter the data and count observations
+. ********************************************************************************         
+>        
+. 
+.         qui unique identpers if !inrange(edad, 16, 60)
+
+.         di as txt "Number of workers dropped due to not having between 16 and 60 in nov 1
+> 8:" %5.0fc `r(unique)'         
+Number of workers dropped due to not having between 16 and 60 in nov 18:37234
+
+.                 
+.         keep if inrange(edad, 16, 60)
+(893,616 observations deleted)
+
+.         
+.         qui unique identpers if year(dofm(ffallec)) < 2020
+
+.         di as txt "Number of workers dropped due to dying before 2020:" %5.0fc `r(unique)
+> '              
+Number of workers dropped due to dying before 2020:  494
+
+.         drop if year(dofm(ffallec)) < 2020
+(11,856 observations deleted)
+
+.         
+.         qui unique identpers
+
+.         di as txt "Resulting sample of workers:" %5.0fc `r(unique)'                     
+Resulting sample of workers:632874
+
+.         
+. ********************************************************************************
+. * E. Generate additional variables
+. ********************************************************************************         
+>        
+. 
+.         * Potentially treated variable
+.         gen aux = 0 if month(date) == 11 & year(date) == 2018 & employed == 1 & hourly_wa
+> ges >= 4.39 & hourly_wages <= 5.47
+(15,124,406 missing values generated)
+
+.         replace aux = 1 if month(date) == 11 & year(date) == 2018 & employed == 1 & hourl
+> y_wages >= 3.57 & hourly_wages < 4.375
+(32,530 real changes made)
+
+.         
+.         bys identpers: egen treated_pot = max(aux)
+(12858576 missing values generated)
+
+.         label var treated_pot "Potentially treated"
+
+.         drop aux
+
+.         
+.         * Partiality coeff ranges
+.         gen coefparc_cat = 1 if coefparc >750 
+(10,316,231 missing values generated)
+
+.         replace coefparc_cat = 2 if coefparc == 0
+(8,726,173 real changes made)
+
+.         replace coefparc_cat = 3 if coefparc >500 & coefparc <= 750
+(741,641 real changes made)
+
+.         replace coefparc_cat = 4 if coefparc >250 & coefparc <= 500 
+(659,287 real changes made)
+
+.         replace coefparc_cat = 5 if coefparc >0 & coefparc <= 250
+(189,130 real changes made)
+
+.         
+.         label define coefparc_cat 1 "Coefpar <250" 2 "Coefpar = 1000" 3 "Coefpar [250-500
+> )" 4 "Coefpar [500-750)" 5 "Coefpar [750-1000)" 
+
+.         label values coefparc_cat coefparc_cat 
+
+. 
+.         * Impute number of workers for missing cases
+.         replace nworkers = 1 if mi(nworkers)
+(4,203,581 real changes made)
+
+.                         
+.         * Labour market values at t == 11 (nov 2018)
+.         local lablist = "gcnae nworkers"
+
+.         foreach var of local lablist {
+  2.                 decode `var',gen(str_`var')
+  3.                 
+.                 cap drop aux
+  4.                 
+.                 gen aux = str_`var' if t == 11
+  5.                 bys identpers (aux): gen t0_str_`var' = aux[_N]
+  6.                 
+.                 encode t0_str_`var', gen(t0_`var')
+  7.                 drop t0_str_`var'                       
+  8.                 label var t0_`var' "`var' in november 18"
+  9.         }
+(14,696,379 missing values generated)
+(3,366,648 missing values generated)
+(14,556,102 missing values generated)
+
+.         
+.         local lablist = "permanent ft skill"
+
+.         foreach var of local lablist {          
+  2.                 cap drop aux                    
+  3.                 gen aux = `var' if t == 11
+  4.                 bys identpers : egen t0_`var' = max(aux)
+  5.                 label var t0_`var' "`var' in november 18"               
+  6.         }                       
+(14,696,379 missing values generated)
+(3366648 missing values generated)
+(14,696,379 missing values generated)
+(3366648 missing values generated)
+(14,769,362 missing values generated)
+(5118240 missing values generated)
+
+.                 
+.         * Gender dummies
+.         gen male = (sexo == 0)
+
+.         label define male 0 "None" 1 "Male"
+
+.         label values male male 
+
+.         
+.         label define sexo 0 "None", modify
+
+. 
+.         * Labels
+.         foreach var in temporary_ft temporary_pt permanent_ft permanent_pt {
+  2.                 local lab: variable label `var'
+  3.                 label define `var' 0 "None" 1 "`lab'"
+  4.                 label values `var' `var'
+  5.         }
+
+. 
+.         * Outcome variable
+. 
+.                 ** Values in t0
+.                 cap drop aux                    
+
+.                 gen aux = coefparc if t == 11
+(14,739,498 missing values generated)
+
+.                 bys identpers : egen t0_coefparc = max(aux)
+(4401504 missing values generated)
+
+.                 
+.                 ** Transitions
+.                 bys identpers (t): gen trans1 = (employed == 1 & coefparc == t0_coefparc)
+>  // Remains employed and keeps the same intensity
+
+.                 bys identpers (t): gen trans2 = (employed == 1 & coefparc > t0_coefparc) 
+> // Remains employed but lowers the intensity
+
+.                 bys identpers (t): gen trans3 = (employed == 0) // Unemployment 
+
+. 
+.                 ** Y var
+.                 gen y = 0
+
+.                 replace y = 1 if trans1 == 1
+(10,273,751 real changes made)
+
+.                 replace y = 2 if trans2 == 1
+(317,137 real changes made)
+
+.                 replace y = 3 if trans3 == 1
+(3,276,749 real changes made)
+
+.                 
+.                 label define y 1 "no changes" 2 "low intensity" 3 "unemployed"
+
+.                 label values y y
+
+. 
+. ********************************************************************************
+. * F. Save
+. ********************************************************************************         
+>                
+.         
+.         compress
+  variable edad was int now byte
+  variable treated_pot was float now byte
+  variable coefparc_cat was float now byte
+  variable t0_gcnae was long now byte
+  variable t0_nworkers was long now byte
+  variable t0_permanent was float now byte
+  variable t0_ft was float now byte
+  variable t0_skill was float now byte
+  variable male was float now byte
+  variable aux was float now int
+  variable t0_coefparc was float now int
+  variable trans1 was float now byte
+  variable trans2 was float now byte
+  variable trans3 was float now byte
+  variable y was float now byte
+  (622,748,016 bytes saved)
+
+.         
+.         sort identpers identccc2 t
+
+.         save "$dta/99. Consolidated data.dta", replace
+file E:\Jorgec\ISEAK mw report 2022\00. Data processing\00. MCVL\dta/99. Consolidated data.
+> dta saved
+
+.                 
+. * End of this dofile
+. cap log close

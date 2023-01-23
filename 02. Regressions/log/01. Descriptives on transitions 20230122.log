@@ -1,0 +1,267 @@
+-------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\Jorgec\ISEAK mw report 2022\02. Regressions\log\01. Descriptives on transit
+> ions 20230122.log
+  log type:  text
+ opened on:  22 Jan 2023, 23:49:48
+
+. 
+.         
+. ********************************************************************************
+. * C. Load and prepare the data
+. ********************************************************************************
+.         
+.         use "$dta\99. Consolidated data.dta", clear
+
+.                 
+.                 merge m:1 identpers using "$path\dta\00. Matches.dta", nogen    
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                    12,858,576
+        from master                12,858,576  
+        from using                          0  
+
+    matched                         2,330,400  
+    -----------------------------------------
+
+.         
+.         * Interactions of transitions x treatment
+.         forval x = 1/3 {
+  2.                 forval y = 0/1 {
+  3.                         gen trans`x'_treatpo`y' = trans`x' if treated_pot == `y'
+  4.                         gen trans`x'_treat`y' = trans`x' if treated == `y'
+  5.                 }
+  6.         }
+(13,639,296 missing values generated)
+(14,591,040 missing values generated)
+(14,408,256 missing values generated)
+(14,591,040 missing values generated)
+(13,639,296 missing values generated)
+(14,591,040 missing values generated)
+(14,408,256 missing values generated)
+(14,591,040 missing values generated)
+(13,639,296 missing values generated)
+(14,591,040 missing values generated)
+(14,408,256 missing values generated)
+(14,591,040 missing values generated)
+
+. 
+.         forval y = 0/1 {        
+  2.                 gen treated_pot`y' = (treated_pot == `y')
+  3.                 gen treated`y' = (treated == `y')               
+  4.         }
+
+. 
+.         * Date periods
+.         qui sum t if year(date) == 2018 & month(date) == 12
+
+.         global t_1 = r(mean)
+
+.         
+.         qui sum t if year(date) == 2019 & month(date) == 11
+
+.         global t_12 = r(mean)           
+
+.         
+.         * Collapse
+.         collapse (sum) trans*_treat* treated*, by(t)
+
+.         
+.         forval x = 1/3 {
+  2.                 forval y = 0/1 {
+  3.                 replace trans`x'_treatpo`y' = 100*trans`x'_treatpo`y'/treated_pot`y'
+  4.                 replace trans`x'_treat`y' = 100*trans`x'_treat`y'/treated`y'
+  5.                 }
+  6.         }
+(24 real changes made)
+(24 real changes made)
+(24 real changes made)
+(24 real changes made)
+(23 real changes made)
+(23 real changes made)
+(23 real changes made)
+(23 real changes made)
+(23 real changes made)
+(23 real changes made)
+(23 real changes made)
+(23 real changes made)
+
+.         
+.         gen t2 = t + 0.3
+
+.         
+. ********************************************************************************
+. * D. Transition 1 - Keeps employment and with the same intensity
+. ********************************************************************************         
+>                
+. 
+.         local y = 1
+
+.         forval x = $t_1 / $t_12 {
+  2.                 local t_`y' = `x'
+  3.                 local y = `y' + 1
+  4.         }       
+
+.         
+.                 # d;
+delimiter now ;
+.                 twoway (bar trans1_treatpo1 t, barw(0.3) bcolor(green)) 
+>                                 (bar trans1_treatpo0 t2, barw(0.3) bcolor(orange))
+>                                 if inrange(t,$t_1 , $t_12 ), 
+>                                 ylabel(50(5)100, labsize(small)) 
+>                                 xlabel(`t_1' "t+1" `t_2' "t+2" `t_3' "t+3" `t_4' "t+4" `t
+> _5' "t+5" `t_6' "t+6" `t_7' "t+7" `t_8' "t+8" `t_9' "t+9" `t_10' "t+10" `t_11' "t+11" `t_
+> 12' "t+12",format(%12,0fc) labsize(vsmall)) // Extrapolate 4% sample
+>                                 graphregion(color(white))
+>                                 xtitle("")
+>                                 ytitle("%")
+>                                 legend(order(1 "Tratamiento" 2 "Control") r(1) ring(0) po
+> sition(1) nobox
+>                                 region(lstyle(none) color(none)))
+>                                 title("Pre-matching")
+>                                 name(g1, replace);
+
+.                 #d cr
+delimiter now cr
+.                 
+.                 # d;
+delimiter now ;
+.                 twoway (bar trans1_treat1 t, barw(0.3) bcolor(green)) 
+>                                 (bar trans1_treat0 t2, barw(0.3) bcolor(orange))
+>                                 if inrange(t,$t_1 , $t_12 ), 
+>                                 ylabel(50(5)100, labsize(small)) 
+>                                 xlabel(`t_1' "t+1" `t_2' "t+2" `t_3' "t+3" `t_4' "t+4" `t
+> _5' "t+5" `t_6' "t+6" `t_7' "t+7" `t_8' "t+8" `t_9' "t+9" `t_10' "t+10" `t_11' "t+11" `t_
+> 12' "t+12",format(%12,0fc) labsize(vsmall)) // Extrapolate 4% sample
+>                                 graphregion(color(white))
+>                                 xtitle("")
+>                                 ytitle("%")
+>                                 legend(order(1 "Tratamiento" 2 "Control") r(1) ring(0) po
+> sition(1) nobox
+>                                 region(lstyle(none) color(none)))
+>                                 title("Matching")
+>                                 name(g2, replace);
+
+.                 #d cr
+delimiter now cr
+.                 
+.                 grc1leg g1 g2, legendfrom(g1) pos(12) graphregion(color(white)) 
+
+.                 graph export "$out\Figure 13A.png", replace     
+(file E:\Jorgec\ISEAK mw report 2022\02. Regressions\out\Figure 13A.png written in PNG form
+> at)
+
+.         
+.         
+. ********************************************************************************
+. * E. Transition 2 - Keeps employment and lowers jobs intensity
+. ********************************************************************************         
+>                        
+.         
+.                 # d;
+delimiter now ;
+.                 twoway (bar trans2_treatpo1 t, barw(0.3) bcolor(green)) 
+>                                 (bar trans2_treatpo0 t2, barw(0.3) bcolor(orange))
+>                                 if inrange(t,$t_1 , $t_12 ), 
+>                                 ylabel(0(2)11, labsize(small)) 
+>                                 xlabel(`t_1' "t+1" `t_2' "t+2" `t_3' "t+3" `t_4' "t+4" `t
+> _5' "t+5" `t_6' "t+6" `t_7' "t+7" `t_8' "t+8" `t_9' "t+9" `t_10' "t+10" `t_11' "t+11" `t_
+> 12' "t+12",format(%12,0fc) labsize(vsmall)) // Extrapolate 4% sample
+>                                 graphregion(color(white))
+>                                 xtitle("")
+>                                 ytitle("%")
+>                                 legend(order(1 "Tratamiento" 2 "Control") r(1) ring(0) po
+> sition(1) nobox
+>                                 region(lstyle(none) color(none)))
+>                                 title("Pre-matching")
+>                                 name(g1, replace);
+
+.                 #d cr
+delimiter now cr
+.                 
+.                 # d;
+delimiter now ;
+.                 twoway (bar trans2_treat1 t, barw(0.3) bcolor(green)) 
+>                                 (bar trans2_treat0 t2, barw(0.3) bcolor(orange))
+>                                 if inrange(t,$t_1 , $t_12 ), 
+>                                 ylabel(0(2)11, labsize(small)) 
+>                                 xlabel(`t_1' "t+1" `t_2' "t+2" `t_3' "t+3" `t_4' "t+4" `t
+> _5' "t+5" `t_6' "t+6" `t_7' "t+7" `t_8' "t+8" `t_9' "t+9" `t_10' "t+10" `t_11' "t+11" `t_
+> 12' "t+12",format(%12,0fc) labsize(vsmall)) // Extrapolate 4% sample
+>                                 graphregion(color(white))
+>                                 xtitle("")
+>                                 ytitle("%")
+>                                 legend(order(1 "Tratamiento" 2 "Control") r(1) ring(0) po
+> sition(1) nobox
+>                                 region(lstyle(none) color(none)))
+>                                 title("Matching")
+>                                 name(g2, replace);
+
+.                 #d cr
+delimiter now cr
+.                 
+.                 grc1leg g1 g2, legendfrom(g1) pos(12) graphregion(color(white)) 
+
+.                 graph export "$out\Figure 13B.png", replace             
+(file E:\Jorgec\ISEAK mw report 2022\02. Regressions\out\Figure 13B.png written in PNG form
+> at)
+
+.                 
+. ********************************************************************************
+. * F. Transition 3 - To unemployment
+. ********************************************************************************         
+>                        
+.         
+.                 # d;
+delimiter now ;
+.                 twoway (bar trans3_treatpo1 t, barw(0.3) bcolor(green)) 
+>                                 (bar trans3_treatpo0 t2, barw(0.3) bcolor(orange))
+>                                 if inrange(t,$t_1 , $t_12 ), 
+>                                 ylabel(0(5)30, labsize(small)) 
+>                                 xlabel(`t_1' "t+1" `t_2' "t+2" `t_3' "t+3" `t_4' "t+4" `t
+> _5' "t+5" `t_6' "t+6" `t_7' "t+7" `t_8' "t+8" `t_9' "t+9" `t_10' "t+10" `t_11' "t+11" `t_
+> 12' "t+12",format(%12,0fc) labsize(vsmall)) // Extrapolate 4% sample
+>                                 graphregion(color(white))
+>                                 xtitle("")
+>                                 ytitle("%")
+>                                 legend(order(1 "Tratamiento" 2 "Control") r(1) ring(0) po
+> sition(1) nobox
+>                                 region(lstyle(none) color(none)))
+>                                 title("Pre-matching")
+>                                 name(g1, replace);
+
+.                 #d cr
+delimiter now cr
+.                 
+.                 # d;
+delimiter now ;
+.                 twoway (bar trans3_treat1 t, barw(0.3) bcolor(green)) 
+>                                 (bar trans3_treat0 t2, barw(0.3) bcolor(orange))
+>                                 if inrange(t,$t_1 , $t_12 ), 
+>                                 ylabel(0(5)25, labsize(small)) 
+>                                 xlabel(`t_1' "t+1" `t_2' "t+2" `t_3' "t+3" `t_4' "t+4" `t
+> _5' "t+5" `t_6' "t+6" `t_7' "t+7" `t_8' "t+8" `t_9' "t+9" `t_10' "t+10" `t_11' "t+11" `t_
+> 12' "t+12",format(%12,0fc) labsize(vsmall)) // Extrapolate 4% sample
+>                                 graphregion(color(white))
+>                                 xtitle("")
+>                                 ytitle("%")
+>                                 legend(order(1 "Tratamiento" 2 "Control") r(1) ring(0) po
+> sition(1) nobox
+>                                 region(lstyle(none) color(none)))
+>                                 title("Matching")
+>                                 name(g2, replace);
+
+.                 #d cr
+delimiter now cr
+.                 
+.                 grc1leg g1 g2, legendfrom(g1) pos(12) graphregion(color(white)) 
+
+.                 graph export "$out\Figure 13C.png", replace                             
+(file E:\Jorgec\ISEAK mw report 2022\02. Regressions\out\Figure 13C.png written in PNG form
+> at)
+
+.                 
+.         
+. * End of this dofile
+. cap log close

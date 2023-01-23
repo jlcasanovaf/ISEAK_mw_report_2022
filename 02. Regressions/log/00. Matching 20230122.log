@@ -1,0 +1,1008 @@
+-------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\Jorgec\ISEAK mw report 2022\02. Regressions\log\00. Matching 20230122.log
+  log type:  text
+ opened on:  22 Jan 2023, 23:44:00
+
+. 
+.         
+. ********************************************************************************
+. * C. Load and prepare the data
+. ********************************************************************************
+.         
+.         use "$dta\99. Consolidated data.dta", clear
+
+.         
+.                 keep if month(date) == 11 & year(date) == 2018 & !mi(treated_pot)
+(15,091,876 observations deleted)
+
+.         
+.                 * Generate dummy variables for all categories
+.                 foreach var in edad_cat nworkers skill gcnae regcot coefparc_cat {
+  2.                         tab `var', gen(`var'_t)
+  3.                         qui ds `var'_t*
+  4.                         local `var'_list = r(varlist)
+  5.                 }
+
+      edad_cat |      Freq.     Percent        Cum.
+---------------+-----------------------------------
+    16-25 años |     15,378       16.14       16.14
+    26-35 años |     26,564       27.87       44.01
+    36-44 años |     23,690       24.86       68.87
+    45-54 años |     22,252       23.35       92.22
+Más de 56 años |      7,414        7.78      100.00
+---------------+-----------------------------------
+         Total |     95,298      100.00
+
+ Cat number |
+ of workers |
+         in |
+  FirmXmuni |      Freq.     Percent        Cum.
+------------+-----------------------------------
+   <10 trab |     47,647       49.07       49.07
+ 10-49 trab |     21,370       22.01       71.08
+50-249 trab |     14,793       15.23       86.31
+     >= 250 |     13,290       13.69      100.00
+------------+-----------------------------------
+      Total |     97,100      100.00
+
+   Level of |
+     skills |      Freq.     Percent        Cum.
+------------+-----------------------------------
+ High skill |      2,612        3.80        3.80
+  Med skill |     36,971       53.74       57.54
+  Low skill |     29,209       42.46      100.00
+------------+-----------------------------------
+      Total |     68,792      100.00
+
+               Firm x Muni sector group |      Freq.     Percent        Cum.
+----------------------------------------+-----------------------------------
+                        Sector primario |      3,610        3.72        3.72
+Industrias extractivas y manuf. y sumin |      8,230        8.48       12.19
+                           Construccion |      2,524        2.60       14.79
+                               Comercio |     22,053       22.71       37.50
+            Transporte y almacenamiento |      3,768        3.88       41.39
+                             Hosteleria |     10,208       10.51       51.90
+           Informacion y comunicaciones |      2,005        2.06       53.96
+      Finanzas, seguros e inmobiliarias |      1,629        1.68       55.64
+  Profesionales, cientificas y tecnicas |      4,448        4.58       60.22
+ Administrativas y servicios auxiliares |     12,210       12.57       72.80
+                 Administracion Publica |      3,069        3.16       75.96
+                              Educacion |      3,816        3.93       79.89
+           Sanidad y servicios sociales |      7,265        7.48       87.37
+Hogar, actividades asociativas, y artís |     12,265       12.63      100.00
+----------------------------------------+-----------------------------------
+                                  Total |     97,100      100.00
+
+    Type of |
+     regime |      Freq.     Percent        Cum.
+------------+-----------------------------------
+        111 |     88,803       91.46       91.46
+        112 |         20        0.02       91.48
+        134 |        131        0.13       91.61
+        138 |      2,046        2.11       93.72
+        140 |        511        0.53       94.24
+        161 |      2,390        2.46       96.71
+        163 |      3,199        3.29      100.00
+------------+-----------------------------------
+      Total |     97,100      100.00
+
+      coefparc_cat |      Freq.     Percent        Cum.
+-------------------+-----------------------------------
+      Coefpar <250 |      7,007        7.22        7.22
+    Coefpar = 1000 |     65,900       67.87       75.08
+ Coefpar [250-500) |     10,513       10.83       85.91
+ Coefpar [500-750) |     10,667       10.99       96.90
+Coefpar [750-1000) |      3,013        3.10      100.00
+-------------------+-----------------------------------
+             Total |     97,100      100.00
+
+.         
+.                 gen rgeneral = (regcot == 111)
+
+.         
+.         
+. ********************************************************************************
+. * D. Differences in mean before the matching
+. ********************************************************************************         
+>        
+.         
+.         foreach var in gcnae male sexo edad_cat nworkers {
+  2.         
+.                 preserve
+  3.                         
+.                         drop gcnae_str
+  4.                         
+.                         cap drop str_`var'
+  5.                         decode `var',gen(str_`var')
+  6.                         qui levelsof str_`var' if !mi(str_`var'),local(cats)
+  7.                         local n_val = r(r)
+  8.                         
+.                         local x = 1
+  9.                         foreach cat of local cats {
+ 10.                                 
+.                                 local cat`x' = "`cat'"
+ 11.                                 
+.                                 qui count if treated_pot == 0
+ 12.                                 local total_cont = r(N)
+ 13.                         
+.                                 qui count if treated_pot == 1
+ 14.                                 local total_treat = r(N)                        
+ 15.                         
+.                                 qui count if str_`var' == "`cat'" & treated_pot == 0
+ 16.                                 local `var'_cont`x' = r(N)/`total_cont'               
+>           
+ 17.         
+.                                 qui count if str_`var' == "`cat'" & treated_pot == 1
+ 18.                                 local `var'_treat`x' = r(N)/`total_treat'             
+>                           
+ 19.                                 
+.                                 cap drop aux
+ 20.                                 gen aux = (str_`var' == "`cat'")
+ 21.                                 
+.                                 qui ttest aux, by(treated_pot)
+ 22.                                 local `var'_p`x' = r(p)
+ 23.                                 
+.                                 local x = `x' + 1                               
+ 24.                         }
+ 25.                         
+.                         clear
+ 26.                         set obs `n_val'
+ 27.                         gen category = ""
+ 28.                         gen treated = .
+ 29.                         gen control = .
+ 30.                         gen pvalue = .
+ 31.                         
+.                         forval x = 1/`n_val' {
+ 32.                                 replace category = "`cat`x''" in `x'
+ 33.                                 replace treated = ``var'_treat`x'' in `x'
+ 34.                                 replace control = ``var'_cont`x'' in `x'
+ 35.                                 replace pvalue = ``var'_p`x'' in `x'
+ 36.                         }
+ 37.                         qui drop if category == "None"
+ 38.                         
+.                         sort category
+ 39. 
+.                         tempfile `var'
+ 40.                         save ``var'', replace   
+ 41.                                 
+.                 restore
+ 42.         }
+number of observations (_N) was 0, now 14
+(14 missing values generated)
+(14 missing values generated)
+(14 missing values generated)
+(14 missing values generated)
+variable category was str1 now str22
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+variable category was str22 now str38
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+variable category was str38 now str59
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000002.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000002.tmp saved
+number of observations (_N) was 0, now 2
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+variable category was str1 now str4
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000004.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000004.tmp saved
+number of observations (_N) was 0, now 2
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+variable category was str1 now str6
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000006.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000006.tmp saved
+number of observations (_N) was 0, now 5
+(5 missing values generated)
+(5 missing values generated)
+(5 missing values generated)
+(5 missing values generated)
+variable category was str1 now str11
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+variable category was str11 now str16
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000008.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000008.tmp saved
+number of observations (_N) was 0, now 4
+(4 missing values generated)
+(4 missing values generated)
+(4 missing values generated)
+(4 missing values generated)
+variable category was str1 now str10
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+variable category was str10 now str11
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000a.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000a.tmp saved
+
+. 
+.         preserve
+
+.         
+.                 clear
+
+.                 foreach var in male sexo edad_cat nworkers gcnae {      
+  2.                 append using ``var''
+  3.                 }
+(note: variable category was str4, now str6 to accommodate using data's values)
+(note: variable category was str6, now str16 to accommodate using data's values)
+(note: variable category was str16, now str59 to accommodate using data's values)
+
+.                 order category treated control pvalue
+
+.                 list
+
+     +----------------------------------------------------------------------------------+
+  1. |                                                   category |  treated |  control |
+     |                                                       Male | .4241316 |  .414914 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                     .0059846                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+  2. |                                                   category |  treated |  control |
+     |                                                     Female | .5758684 | .5850859 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                     .0059846                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+  3. |                                                   category |  treated |  control |
+     |                                                 16-25 años | .2146326 | .1300294 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                            0                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+  4. |                                                   category |  treated |  control |
+     |                                                 26-35 años | .2645558 | .2781168 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                     7.67e-06                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+  5. |                                                   category |  treated |  control |
+     |                                                 36-44 años | .2041193 | .2640545 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                            0                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+  6. |                                                   category |  treated |  control |
+     |                                                 45-54 años | .2075623 | .2400496 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                     5.75e-30                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+  7. |                                                   category |  treated |  control |
+     |                                             Más de 56 años | .0899785 | .0694905 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                     7.37e-30                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+  8. |                                                   category |  treated |  control |
+     |                                                 10-49 trab | .1778666 | .2413505 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                            0                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+  9. |                                                   category |  treated |  control |
+     |                                                50-249 trab |  .134399 | .1613907 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                     2.18e-28                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 10. |                                                   category |  treated |  control |
+     |                                                   <10 trab | .5996618 | .4358061 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                            0                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 11. |                                                   category |  treated |  control |
+     |                                                     >= 250 | .0880725 | .1614527 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                            0                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 12. |                                                   category |  treated |  control |
+     |                                     Administracion Publica |  .056225 |  .019204 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                            0                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 13. |                                                   category |  treated |  control |
+     |                     Administrativas y servicios auxiliares | .1142638 | .1315317 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                     1.85e-14                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 14. |                                                   category |  treated |  control |
+     |                                                   Comercio | .1695051 | .2561406 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                            0                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 15. |                                                   category |  treated |  control |
+     |                                               Construccion | .0241931 |  .026901 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                     .0123108                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 16. |                                                   category |  treated |  control |
+     |                                                  Educacion | .0491239 | .0343503 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                     4.77e-29                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 17. |                                                   category |  treated |  control |
+     |                          Finanzas, seguros e inmobiliarias | .0218567 | .0142171 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                     2.13e-18                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 18. |                                                   category |  treated |  control |
+     | Hogar, actividades asociativas, y artísticas y recreativas | .2344912 | .0718135 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                            0                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 19. |                                                   category |  treated |  control |
+     |                                                 Hosteleria | .0643406 | .1256776 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                            0                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 20. |                                                   category |  treated |  control |
+     |              Industrias extractivas y manuf. y suministros | .0622195 | .0961127 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                            0                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 21. |                                                   category |  treated |  control |
+     |                               Informacion y comunicaciones | .0245005 | .0187084 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                     2.09e-09                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 22. |                                                   category |  treated |  control |
+     |                      Profesionales, cientificas y tecnicas | .0533661 | .0420009 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                     1.28e-15                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 23. |                                                   category |  treated |  control |
+     |                               Sanidad y servicios sociales | .0520135 | .0863094 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                            0                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 24. |                                                   category |  treated |  control |
+     |                                            Sector primario | .0480172 | .0317175 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                     8.03e-37                                     |
+     +----------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------+
+ 25. |                                                   category |  treated |  control |
+     |                                Transporte y almacenamiento | .0258838 | .0453152 |
+     |----------------------------------------------------------------------------------|
+     |                                       pvalue                                     |
+     |                                            0                                     |
+     +----------------------------------------------------------------------------------+
+
+.                 
+.                 export excel "$out\Table 4.xlsx", sheetreplace sheet("raw")
+file E:\Jorgec\ISEAK mw report 2022\02. Regressions\out\Table 4.xlsx saved
+
+.                 
+.         restore
+
+.         
+. ********************************************************************************
+. * E. Matching
+. ********************************************************************************         
+>                
+.         
+.         * CEM
+.         cem sexo permanent_ft permanent_pt temporary_ft temporary_pt espanol rgeneral eda
+> d (16 25.5 35.5 44.5 55.5 60) numtrab (0 10.5 49.5 249.5) regcot (1 2.5 7.5 9.5) `gcnae_l
+> ist' coefparc (0 249.5 500.5 750.5 999.5), treatment(treated_pot) k2k
+
+Matching Summary:
+-----------------
+Number of strata: 4248
+Number of matched strata: 2504
+
+               0      1
+      All  64570  32530
+  Matched  24914  24914
+Unmatched  39656   7616
+
+
+Multivariate L1 distance: .40174199
+
+Univariate imbalance:
+
+                   L1     mean      min      25%      50%      75%      max
+        sexo        0        0        0        0        0        0        0
+permanent_ft        0        0        0        0        0        0        0
+permanent_pt        0        0        0        0        0        0        0
+temporary_ft        0        0        0        0        0        0        0
+temporary_pt        0        0        0        0        0        0        0
+     espanol        0        0        0        0        0        0        0
+    rgeneral        0        0        0        0        0        0        0
+        edad   .04572  -.19094        0        0        0        0        0
+     numtrab   .01288  -45.691        0       -1       -1        0        0
+      regcot    .0067    .1561        0        0        0        0        0
+    gcnae_t1        0        0        0        0        0        0        0
+    gcnae_t2        0        0        0        0        0        0        0
+    gcnae_t3        0        0        0        0        0        0        0
+    gcnae_t4        0        0        0        0        0        0        0
+    gcnae_t5        0        0        0        0        0        0        0
+    gcnae_t6        0        0        0        0        0        0        0
+    gcnae_t7        0        0        0        0        0        0        0
+    gcnae_t8        0        0        0        0        0        0        0
+    gcnae_t9        0        0        0        0        0        0        0
+   gcnae_t10        0        0        0        0        0        0        0
+   gcnae_t11        0        0        0        0        0        0        0
+   gcnae_t12        0        0        0        0        0        0        0
+   gcnae_t13        0        0        0        0        0        0        0
+   gcnae_t14        0        0        0        0        0        0        0
+    coefparc   .01646  -1.0598        0        0        0      -12        0
+
+.         
+.         * Generate new treatment variable and weights
+.         gen treated = treated_pot if cem_matched == 1
+(47,272 missing values generated)
+
+.         gen weights = cem_weights
+
+.         gen weights_pre = 1
+
+.         
+. ********************************************************************************
+. * F. Differences in mean after the matching
+. ********************************************************************************         
+>        
+.         
+.         foreach var in male sexo edad_cat nworkers temporary_ft temporary_pt permanent_ft
+>  permanent_pt coefparc_cat {
+  2.         
+.                 preserve
+  3.                         
+.                         cap drop str_`var'
+  4.                         decode `var',gen(str_`var')
+  5.                         qui levelsof str_`var' if !mi(str_`var'),local(cats)
+  6.                         local n_val = r(r)
+  7.                         local x = 1
+  8.                         
+.                         foreach cat of local cats {
+  9.                         
+.                                 qui sum `var' if str_`var' == "`cat'"
+ 10.                                 local y = r(max)                                
+ 11.                                 
+.                                 local cat`x' = "`cat'"
+ 12. 
+.         
+.                                 foreach period in treated_pot treated {
+ 13.                                 
+.                                         if "`period'" == "treated_pot" {
+ 14.                                                 local type "pre"
+ 15.                                                 local weights "weights_pre"
+ 16.                                         }
+ 17.                                         if "`period'" == "treated" {
+ 18.                                                 local type "post"
+ 19.                                                 local weights "weights"               
+>   
+ 20.                                         }
+ 21.                                         
+.                                         if "`var'" == "male" | "`var'" == "sexo" | "`var'
+> " == "temporary_ft" | "`var'" == "temporary_pt" | "`var'" == "permanent_ft" | "`var'" == 
+> "permanent_pt"  {
+ 22.                                                 qui sum `var' if `period' == 0 [w=`wei
+> ghts']
+ 23.                                                 local `var'_cont_`type'`x' = r(mean)
+ 24.                         
+.                                                 qui sum `var' if `period' == 1 [w=`weight
+> s']
+ 25.                                                 local `var'_treat_`type'`x' = r(mean) 
+>                                   
+ 26.                                                 
+.                                                 qui reg `period' `var' [w=`weights']
+ 27.                                                 mat table = r(table)
+ 28.                                                 local `var'_p_`type'`x' = table[4,1]  
+>                   
+ 29.                                         }
+ 30.                                         else {
+ 31.                                                 qui sum `var'_t`y' if `period' == 0 [w
+> =`weights']
+ 32.                                                 local `var'_cont_`type'`x' = r(mean)
+ 33.                         
+.                                                 qui sum `var'_t`y' if `period' == 1 [w=`w
+> eights']
+ 34.                                                 local `var'_treat_`type'`x' = r(mean) 
+>                                   
+ 35.                                                 
+.                                                 cap drop aux
+ 36.                                                 gen aux = (str_`var' == "`cat'")
+ 37.                                                 
+.                                                 qui reg `period' aux [w=`weights']
+ 38.                                                 mat table = r(table)
+ 39.                                                 local `var'_p_`type'`x' = table[4,1]
+ 40.                                         }
+ 41.                                 }
+ 42.                                 local x = `x' + 1
+ 43.                         }
+ 44.                         
+.                         clear
+ 45.                         set obs `n_val'
+ 46.                         gen category = ""
+ 47.                         gen treated = .
+ 48.                         gen control = .
+ 49.                         gen pvalue = .
+ 50.                         gen treated_pre = .
+ 51.                         
+.                         forval x = 1/`n_val' {
+ 52.                                 replace category = "`cat`x''" in `x'
+ 53.                                 replace treated = ``var'_treat_post`x'' in `x'
+ 54.                                 replace control = ``var'_cont_post`x'' in `x'
+ 55.                                 replace pvalue = ``var'_p_post`x'' in `x'
+ 56.                                 replace treated_pre = ``var'_treat_pre`x'' in `x'     
+>                           
+ 57.                         }
+ 58.                         
+.                         qui drop if category == "None"
+ 59.                         
+.                         sort category
+ 60.                         
+.                         tempfile `var'
+ 61.                         save ``var'', replace   
+ 62.                                 
+.                 restore
+ 63.         }
+number of observations (_N) was 0, now 2
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+variable category was str1 now str4
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000d.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000d.tmp saved
+number of observations (_N) was 0, now 2
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+variable category was str1 now str6
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000f.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000f.tmp saved
+number of observations (_N) was 0, now 5
+(5 missing values generated)
+(5 missing values generated)
+(5 missing values generated)
+(5 missing values generated)
+(5 missing values generated)
+variable category was str1 now str11
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+variable category was str11 now str16
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000h.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000h.tmp saved
+number of observations (_N) was 0, now 4
+(4 missing values generated)
+(4 missing values generated)
+(4 missing values generated)
+(4 missing values generated)
+(4 missing values generated)
+variable category was str1 now str10
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+variable category was str10 now str11
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000j.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000j.tmp saved
+number of observations (_N) was 0, now 2
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+variable category was str1 now str4
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+variable category was str4 now str21
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000l.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000l.tmp saved
+number of observations (_N) was 0, now 2
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+variable category was str1 now str4
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+variable category was str4 now str21
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000n.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000n.tmp saved
+number of observations (_N) was 0, now 2
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+variable category was str1 now str4
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+variable category was str4 now str21
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000p.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000p.tmp saved
+number of observations (_N) was 0, now 2
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+variable category was str1 now str4
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+variable category was str4 now str21
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000r.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000r.tmp saved
+number of observations (_N) was 0, now 5
+(5 missing values generated)
+(5 missing values generated)
+(5 missing values generated)
+(5 missing values generated)
+(5 missing values generated)
+variable category was str1 now str12
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+variable category was str12 now str14
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+variable category was str14 now str17
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+variable category was str17 now str18
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000t.tmp not found)
+file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000t.tmp saved
+
+. 
+.         preserve
+
+.         
+.                 clear
+
+.                 foreach var in male sexo edad_cat nworkers temporary_ft temporary_pt perm
+> anent_ft permanent_pt coefparc_cat {   
+  2.                 append using ``var''
+  3.                 }
+(note: variable category was str4, now str6 to accommodate using data's values)
+(note: variable category was str6, now str16 to accommodate using data's values)
+(note: variable category was str16, now str21 to accommodate using data's values)
+
+.                 
+.                 order category treated control pvalue treated_pre
+
+.                 list
+
+     +-------------------------------------------------------------------+
+     |              category    treated    control     pvalue   treate~e |
+     |-------------------------------------------------------------------|
+  1. |                  Male   .4393112   .4393112          1   .4241316 |
+  2. |                Female   .5606888   .5606888          1   .5758684 |
+  3. |            16-25 años   .1946903   .1947697          1   .2188235 |
+  4. |            26-35 años   .3102239   .3103504          1   .2697214 |
+  5. |            36-44 años   .2285796   .2286728          1   .2081048 |
+     |-------------------------------------------------------------------|
+  6. |            45-54 años   .2078219   .2074987   .9115379    .211615 |
+  7. |        Más de 56 años   .0586844   .0587083          1   .0917354 |
+  8. |            10-49 trab   .2128924   .2189131   .1024301   .1778666 |
+  9. |           50-249 trab   .1535281   .1535281          1    .134399 |
+ 10. |              <10 trab   .5284981   .5224773    .178405   .5996618 |
+     |-------------------------------------------------------------------|
+ 11. |                >= 250   .1050815   .1050815          1   .0880725 |
+ 12. | Temporary x Full time   .0393755   .0393755          1   .0389794 |
+ 13. | Temporary x Part time   .0234406   .0234406          1   .0225023 |
+ 14. | Permanent x Full time   .0386128   .0386128          1    .034522 |
+ 15. | Permanent x Part time    .025287    .025287          1   .0222564 |
+     |-------------------------------------------------------------------|
+ 16. |          Coefpar <250   .0487276   .0487276          1   .0447587 |
+ 17. |        Coefpar = 1000   .7059886   .6986032   .0714345    .742699 |
+ 18. |     Coefpar [250-500)   .0918761   .0918761          1   .0832155 |
+ 19. |     Coefpar [500-750)   .1168419   .1203339   .2280127   .0976944 |
+ 20. |    Coefpar [750-1000)   .0365658   .0404592   .0239331   .0316323 |
+     +-------------------------------------------------------------------+
+
+.                 
+.                 export excel "$out\Table 5.xlsx", sheetreplace sheet("raw")
+file E:\Jorgec\ISEAK mw report 2022\02. Regressions\out\Table 5.xlsx saved
+
+.         
+.         restore
+
+.         
+. ********************************************************************************
+. * G. Export matching
+. ********************************************************************************         
+>                
+. 
+.         keep identpers treated weights
+
+.         sort identpers 
+
+.         
+.         compress
+  variable treated was float now byte
+  variable weights was float now byte
+  (582,600 bytes saved)
+
+.         save "$path\dta\00. Matches.dta", replace
+file E:\Jorgec\ISEAK mw report 2022\02. Regressions\dta\00. Matches.dta saved
+
+.         
+.         
+. * End of this dofile
+. cap log close

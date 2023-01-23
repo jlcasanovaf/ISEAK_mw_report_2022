@@ -1,0 +1,123 @@
+-------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\Jorgec\ISEAK mw report 2022\00. Data processing\00. MCVL\log\02. Harmonise 
+> contribution basis data 20230122.log
+  log type:  text
+ opened on:  22 Jan 2023, 23:18:17
+
+. 
+.         
+. ********************************************************************************
+. * C. Load and prepare the data of general regime
+. ********************************************************************************
+.         
+.         use "$dta/00. Contribution data.dta", clear     
+
+.                 
+.         drop basetot
+
+.         
+.         * Keep only 2018 and 2019
+.         keep if inrange(anocot, 2018, 2019)
+(24,753,438 observations deleted)
+
+.         
+.         *Reshape
+.         reshape long base, i(identpers identccc2 anocot) j(mescot)
+(note: j = 1 2 3 4 5 6 7 8 9 10 11 12)
+
+Data                               wide   ->   long
+-----------------------------------------------------------------------------
+Number of obs.                  2.4e+06   -> 2.9e+07
+Number of variables                  15   ->       5
+j variable (12 values)                    ->   mescot
+xij variables:
+                 base1 base2 ... base12   ->   base
+-----------------------------------------------------------------------------
+
+.         
+.         *Generate common time variable
+.         gen t = .
+(28,970,628 missing values generated)
+
+.         local x = 1
+
+. 
+.         forval year = 2018/2019 {
+  2.                 forval month = 1/12 {
+  3.                         qui replace t = `x' if anocot == `year' & mescot == `month'
+  4.                         local x = `x' + 1
+  5.                 }
+  6.         }
+
+.         
+.         compress
+  variable t was float now byte
+  (86,911,884 bytes saved)
+
+.         
+.         sort identpers identccc2 t
+
+.         save "$dta/02. Harmonized Contribution basis.dta", replace
+file E:\Jorgec\ISEAK mw report 2022\00. Data processing\00. MCVL\dta/02. Harmonized Contrib
+> ution basis.dta saved
+
+. 
+. ********************************************************************************
+. * D. Load and prepare the data of special regime
+. ********************************************************************************        
+.         
+.         use "$dta\00. Contribution data special regime.dta", clear
+
+.         
+.         drop basetot
+
+.         
+.         * Keep only 2018 and 2019
+.         keep if inrange(anocot, 2018, 2019)
+(5,255,707 observations deleted)
+
+.         
+.         *Reshape
+.         reshape long base, i(identpers identccc2 anocot) j(mescot)
+(note: j = 1 2 3 4 5 6 7 8 9 10 11 12)
+
+Data                               wide   ->   long
+-----------------------------------------------------------------------------
+Number of obs.                   414316   -> 5.0e+06
+Number of variables                  15   ->       5
+j variable (12 values)                    ->   mescot
+xij variables:
+                 base1 base2 ... base12   ->   base
+-----------------------------------------------------------------------------
+
+.         
+.         *Generate common time variable
+.         gen t = .
+(4,971,792 missing values generated)
+
+.         local x = 1
+
+. 
+.         forval year = 2018/2019 {
+  2.                 forval month = 1/12 {
+  3.                         qui replace t = `x' if anocot == `year' & mescot == `month'
+  4.                         local x = `x' + 1
+  5.                 }
+  6.         }
+
+.         
+.         compress
+  variable t was float now byte
+  (14,915,376 bytes saved)
+
+.         
+.         sort identpers identccc2 t      
+
+.         save "$dta/02. Harmonized Contribution basis special regime.dta", replace
+file E:\Jorgec\ISEAK mw report 2022\00. Data processing\00. MCVL\dta/02. Harmonized Contrib
+> ution basis special regime.dta saved
+
+.         
+. * End of this dofile
+. cap log close
