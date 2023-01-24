@@ -1,9 +1,9 @@
 -------------------------------------------------------------------------------------------
       name:  <unnamed>
        log:  E:\Jorgec\ISEAK mw report 2022\01. Descriptives\log\00. Replicate descriptives
->  20230122.log
+>  20230124.log
   log type:  text
- opened on:  22 Jan 2023, 23:35:41
+ opened on:  24 Jan 2023, 07:07:10
 
 . 
 .         
@@ -143,29 +143,35 @@ delimiter now cr
  15.                                 
 .                                 qui count if str_`var' == "`cat'"
  16.                                 local `var'_tot`x' = r(N)
- 17.                                 local x = `x' + 1
- 18.                         }
- 19.                         
+ 17.                                 
+.                                 local share`x' = ``var'`x'' / ``var'_tot`x''
+ 18.                                 
+.                                 local x = `x' + 1
+ 19.                         }
+ 20.                         
 .                         clear
- 20.                         set obs `n_val'
- 21.                         gen category = ""
- 22.                         gen freq = .
- 23.                         gen freq_tot = .
- 24.                         
+ 21.                         set obs `n_val'
+ 22.                         gen category = ""
+ 23.                         gen freq = .
+ 24.                         gen freq_tot = .
+ 25.                         gen share = .
+ 26.                         
 .                         forval x = 1/`n_val' {
- 25.                                 replace category = "`cat`x''" in `x'
- 26.                                 replace freq = ``var'`x'' in `x'
- 27.                                 replace freq_tot = ``var'_tot`x'' in `x'
- 28.                         }
- 29.                         
+ 27.                                 replace category = "`cat`x''" in `x'
+ 28.                                 replace freq = ``var'`x'' in `x'
+ 29.                                 replace freq_tot = ``var'_tot`x'' in `x'
+ 30.                                 replace share = `share`x'' in `x'
+ 31.                         }
+ 32.                         
 .                         tempfile `var'
- 30.                         save ``var'', replace   
- 31.                                 
+ 33.                         save ``var'', replace   
+ 34.                                 
 .                 restore
- 32.         }
+ 35.         }
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 14
+(14 missing values generated)
 (14 missing values generated)
 (14 missing values generated)
 (14 missing values generated)
@@ -173,7 +179,13 @@ variable category was str1 now str22
 (1 real change made)
 (1 real change made)
 (1 real change made)
+(1 real change made)
 variable category was str22 now str38
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
 (1 real change made)
 (1 real change made)
 (1 real change made)
@@ -214,11 +226,20 @@ variable category was str38 now str59
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000003.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000003.tmp saved
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000003.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000003.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 2
+(2 missing values generated)
 (2 missing values generated)
 (2 missing values generated)
 (2 missing values generated)
@@ -229,11 +250,14 @@ variable category was str1 now str6
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000005.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000005.tmp saved
+(1 real change made)
+(1 real change made)
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000005.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000005.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 5
+(5 missing values generated)
 (5 missing values generated)
 (5 missing values generated)
 (5 missing values generated)
@@ -250,19 +274,26 @@ variable category was str1 now str11
 (1 real change made)
 (1 real change made)
 (1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
 variable category was str11 now str16
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000007.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000007.tmp saved
+(1 real change made)
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000007.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000007.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 4
 (4 missing values generated)
 (4 missing values generated)
 (4 missing values generated)
+(4 missing values generated)
 variable category was str1 now str10
+(1 real change made)
 (1 real change made)
 (1 real change made)
 (1 real change made)
@@ -276,8 +307,11 @@ variable category was str10 now str11
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000009.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000009.tmp saved
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000009.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000009.tmp saved
 
 .         
 .         preserve
@@ -291,7 +325,7 @@ file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000009.tmp saved
 (note: variable category was str16, now str59 to accommodate using data's values)
 
 .                 
-.                 export excel "$out\Table 1.xlsx", sheetreplace sheet("raw")
+.                 export excel "$out\Table 1.xlsx", sheetreplace sheet("raw") first(var)
 file E:\Jorgec\ISEAK mw report 2022\01. Descriptives\out\Table 1.xlsx saved
 
 .         restore
@@ -418,8 +452,8 @@ variable category was str38 now str59
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000c.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000c.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000c.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000c.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 2
@@ -430,8 +464,8 @@ variable category was str1 now str6
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000e.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000e.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000e.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000e.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 5
@@ -449,8 +483,8 @@ variable category was str1 now str11
 variable category was str11 now str16
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000g.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000g.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000g.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000g.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 4
@@ -466,12 +500,12 @@ variable category was str10 now str11
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000i.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000i.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000i.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000i.tmp saved
 (note: variable category was str6, now str16 to accommodate using data's values)
 (note: variable category was str16, now str59 to accommodate using data's values)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000k.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000k.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000k.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000k.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 14
@@ -508,8 +542,8 @@ variable category was str38 now str59
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000m.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000m.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000m.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000m.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 2
@@ -520,8 +554,8 @@ variable category was str1 now str6
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000o.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000o.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000o.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000o.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 5
@@ -539,8 +573,8 @@ variable category was str1 now str11
 variable category was str11 now str16
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000q.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000q.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000q.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000q.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 4
@@ -556,12 +590,12 @@ variable category was str10 now str11
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000s.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000s.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000s.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000s.tmp saved
 (note: variable category was str6, now str16 to accommodate using data's values)
 (note: variable category was str16, now str59 to accommodate using data's values)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000u.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000u.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000u.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000u.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 14
@@ -598,8 +632,8 @@ variable category was str38 now str59
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000w.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00000w.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000w.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000w.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 2
@@ -610,8 +644,8 @@ variable category was str1 now str6
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000010.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000010.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000010.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000010.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 5
@@ -629,8 +663,8 @@ variable category was str1 now str11
 variable category was str11 now str16
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000012.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000012.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000012.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000012.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 4
@@ -646,12 +680,12 @@ variable category was str10 now str11
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000014.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000014.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000014.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000014.tmp saved
 (note: variable category was str6, now str16 to accommodate using data's values)
 (note: variable category was str16, now str59 to accommodate using data's values)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000016.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000016.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000016.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000016.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 14
@@ -688,8 +722,8 @@ variable category was str38 now str59
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000018.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_000018.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000018.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000018.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 2
@@ -700,8 +734,8 @@ variable category was str1 now str6
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001a.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001a.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001a.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001a.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 5
@@ -719,8 +753,8 @@ variable category was str1 now str11
 variable category was str11 now str16
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001c.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001c.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001c.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001c.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 4
@@ -736,12 +770,12 @@ variable category was str10 now str11
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001e.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001e.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001e.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001e.tmp saved
 (note: variable category was str6, now str16 to accommodate using data's values)
 (note: variable category was str16, now str59 to accommodate using data's values)
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001g.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001g.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001g.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001g.tmp saved
 
 .         
 .         preserve
@@ -774,7 +808,7 @@ file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001g.tmp saved
     -----------------------------------------
 
 .                 
-.                 export excel "$out\Table 2.xlsx", sheetreplace sheet("raw")
+.                 export excel "$out\Table 2.xlsx", sheetreplace sheet("raw") first(var)
 file E:\Jorgec\ISEAK mw report 2022\01. Descriptives\out\Table 2.xlsx saved
 
 .         
@@ -1550,8 +1584,8 @@ Number of workers who dissapeared from 2017 wave:35417
 .                         tempfile old_wave_17
 
 .                         save `old_wave_17', replace
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001p.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001p.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001p.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001p.tmp saved
 
 .         
 .         restore
@@ -1611,8 +1645,8 @@ Number of workers who dissapeared from 2018 wave:33870
 .                         tempfile old_wave_18
 
 .                         save `old_wave_18', replace
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001r.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001r.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001r.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001r.tmp saved
 
 .         
 .         restore
@@ -1838,8 +1872,8 @@ Number of workers who dissapeared from 2017 wave:35417
 .                         tempfile old_wave_17
 
 .                         save `old_wave_17', replace
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001u.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001u.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001u.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001u.tmp saved
 
 .         
 .         restore
@@ -1899,8 +1933,8 @@ Number of workers who dissapeared from 2018 wave:33870
 .                         tempfile old_wave_18
 
 .                         save `old_wave_18', replace
-(note: file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001w.tmp not found)
-file C:\PROGRA~3\Temp\STATA-~1\JORGE_~1\ST_2be0_00001w.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001w.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001w.tmp saved
 
 .         
 .         restore
