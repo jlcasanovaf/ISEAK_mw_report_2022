@@ -1,9 +1,9 @@
 -------------------------------------------------------------------------------------------
       name:  <unnamed>
        log:  E:\Jorgec\ISEAK mw report 2022\01. Descriptives\log\00. Replicate descriptives
->  20230124.log
+>  20230127.log
   log type:  text
- opened on:  24 Jan 2023, 07:07:10
+ opened on:  27 Jan 2023, 23:33:47
 
 . 
 .         
@@ -234,8 +234,8 @@ variable category was str38 now str59
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000003.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000003.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000003.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000003.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 2
@@ -252,8 +252,8 @@ variable category was str1 now str6
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000005.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000005.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000005.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000005.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 5
@@ -283,8 +283,8 @@ variable category was str11 now str16
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000007.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000007.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000007.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000007.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 4
@@ -310,8 +310,8 @@ variable category was str10 now str11
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000009.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000009.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000009.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000009.tmp saved
 
 .         
 .         preserve
@@ -452,8 +452,8 @@ variable category was str38 now str59
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000c.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000c.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000c.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000c.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 2
@@ -464,8 +464,8 @@ variable category was str1 now str6
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000e.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000e.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000e.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000e.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 5
@@ -483,8 +483,8 @@ variable category was str1 now str11
 variable category was str11 now str16
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000g.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000g.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000g.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000g.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 4
@@ -500,12 +500,12 @@ variable category was str10 now str11
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000i.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000i.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000i.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000i.tmp saved
 (note: variable category was str6, now str16 to accommodate using data's values)
 (note: variable category was str16, now str59 to accommodate using data's values)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000k.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000k.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000k.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000k.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 14
@@ -542,8 +542,8 @@ variable category was str38 now str59
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000m.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000m.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000m.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000m.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 2
@@ -554,8 +554,8 @@ variable category was str1 now str6
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000o.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000o.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000o.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000o.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 5
@@ -573,8 +573,8 @@ variable category was str1 now str11
 variable category was str11 now str16
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000q.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000q.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000q.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000q.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 4
@@ -590,12 +590,12 @@ variable category was str10 now str11
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000s.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000s.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000s.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000s.tmp saved
 (note: variable category was str6, now str16 to accommodate using data's values)
 (note: variable category was str16, now str59 to accommodate using data's values)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000u.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000u.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000u.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000u.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 14
@@ -632,8 +632,8 @@ variable category was str38 now str59
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000w.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00000w.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000w.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00000w.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 2
@@ -644,8 +644,8 @@ variable category was str1 now str6
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000010.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000010.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000010.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000010.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 5
@@ -663,8 +663,8 @@ variable category was str1 now str11
 variable category was str11 now str16
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000012.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000012.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000012.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000012.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 4
@@ -680,12 +680,12 @@ variable category was str10 now str11
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000014.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000014.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000014.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000014.tmp saved
 (note: variable category was str6, now str16 to accommodate using data's values)
 (note: variable category was str16, now str59 to accommodate using data's values)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000016.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000016.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000016.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000016.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 14
@@ -722,8 +722,8 @@ variable category was str38 now str59
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000018.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_000018.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000018.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000018.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 2
@@ -734,8 +734,8 @@ variable category was str1 now str6
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001a.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001a.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001a.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001a.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 5
@@ -753,8 +753,8 @@ variable category was str1 now str11
 variable category was str11 now str16
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001c.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001c.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001c.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001c.tmp saved
 (14,294,799 observations deleted)
 (445,054 observations deleted)
 number of observations (_N) was 0, now 4
@@ -770,12 +770,12 @@ variable category was str10 now str11
 (1 real change made)
 (1 real change made)
 (1 real change made)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001e.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001e.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001e.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001e.tmp saved
 (note: variable category was str6, now str16 to accommodate using data's values)
 (note: variable category was str16, now str59 to accommodate using data's values)
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001g.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001g.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001g.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001g.tmp saved
 
 .         
 .         preserve
@@ -1584,8 +1584,8 @@ Number of workers who dissapeared from 2017 wave:35417
 .                         tempfile old_wave_17
 
 .                         save `old_wave_17', replace
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001p.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001p.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001p.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001p.tmp saved
 
 .         
 .         restore
@@ -1645,8 +1645,8 @@ Number of workers who dissapeared from 2018 wave:33870
 .                         tempfile old_wave_18
 
 .                         save `old_wave_18', replace
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001r.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001r.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001r.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001r.tmp saved
 
 .         
 .         restore
@@ -1872,8 +1872,8 @@ Number of workers who dissapeared from 2017 wave:35417
 .                         tempfile old_wave_17
 
 .                         save `old_wave_17', replace
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001u.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001u.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001u.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001u.tmp saved
 
 .         
 .         restore
@@ -1933,8 +1933,8 @@ Number of workers who dissapeared from 2018 wave:33870
 .                         tempfile old_wave_18
 
 .                         save `old_wave_18', replace
-(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001w.tmp not found)
-file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_2114_00001w.tmp saved
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001w.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_00001w.tmp saved
 
 .         
 .         restore
@@ -2199,7 +2199,496 @@ delimiter now cr
 .                 
 .                 graph drop _all
 
+.         
+.         restore 
+
+. 
+. ********************************************************************************
+. * L. Figure 11 and Table 3
+. ********************************************************************************         
+>                
+.         
+.         * Prepare list of missing workers from previous waves   
+.         preserve
+
+.         
+.                 use "$dta/00. Personal data 2017.dta", clear
+
+. 
+.                 merge 1:1 identpers using "$dta/00. Personal data 2018.dta"
+(label cob2 already defined)
+(label nat2 already defined)
+(label sexo already defined)
+(label edad_cat already defined)
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                       118,857
+        from master                    49,453  (_merge==1)
+        from using                     69,404  (_merge==2)
+
+    matched                         1,178,490  (_merge==3)
+    -----------------------------------------
+
+. 
+.                         qui unique identpers if _m == 1 & !mi(ffallec)
+
+.                         di as txt "Number of workers who passed away in 2017 wave:" %5.0f
+> c `r(unique)'          
+Number of workers who passed away in 2017 wave:14036
+
+. 
+.                         qui unique identpers if _m == 1 & mi(ffallec)
+
+.                         di as txt "Number of workers who dissapeared from 2017 wave:" %5.
+> 0fc `r(unique)'                        
+Number of workers who dissapeared from 2017 wave:35417
+
 .                         
+.                         keep if _m == 1 & mi(ffallec)
+(1,261,930 observations deleted)
+
+.                         
+.                         gen renta = 0                   
+
+.                         gen year = 2018
+
+.                         
+.                         keep identpers year renta sexo espanol menor_30
+
+.                         
+.                         tempfile old_wave_17
+
+.                         save `old_wave_17', replace
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000021.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000021.tmp saved
+
+.         
+.         restore
+
+.         preserve
+
+.         
+.                 use "$dta/00. Personal data 2018.dta", clear    
+
+.         
+.                 sort identpers 
+
+.                 merge 1:1 identpers using "$dta/00. Personal data 2019.dta"
+(label cob2 already defined)
+(label nat2 already defined)
+(label sexo already defined)
+(label edad_cat already defined)
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                       117,388
+        from master                    48,283  (_merge==1)
+        from using                     69,105  (_merge==2)
+
+    matched                         1,199,611  (_merge==3)
+    -----------------------------------------
+
+. 
+.                         qui unique identpers if _m == 1 & !mi(ffallec)
+
+.                         di as txt "Number of workers who passed away in 2018 wave:" %5.0f
+> c `r(unique)'          
+Number of workers who passed away in 2018 wave:14413
+
+. 
+.                         qui unique identpers if _m == 1 & mi(ffallec)
+
+.                         di as txt "Number of workers who dissapeared from 2018 wave:" %5.
+> 0fc `r(unique)'                        
+Number of workers who dissapeared from 2018 wave:33870
+
+.                         
+.                         keep if _m == 1 & mi(ffallec)
+(1,283,129 observations deleted)
+
+.                         drop _m
+
+. 
+.                         gen renta = 0                   
+
+.                         gen year = 2019
+
+.                         
+.                         keep identpers year renta sexo espanol menor_30
+
+.                         
+.                         tempfile old_wave_18
+
+.                         save `old_wave_18', replace
+(note: file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000023.tmp not found)
+file C:\ProgramData\Temp\stata-server\jorge_tmp\ST_1db8_000023.tmp saved
+
+.         
+.         restore
+
+.         
+.         * Estimate the share for each quintile of the half lowest distribution
+.         preserve                
+
+.                         keep if !mi(one_18) | !mi(one_19_nov) 
+(14,284,704 observations deleted)
+
+.                         append using `old_wave_17'
+(label sexo already defined)
+
+.                         append using `old_wave_18'
+(label sexo already defined)
+
+.                 
+.                 replace renta = base if mi(renta)
+(904,272 real changes made)
+
+.                 
+.                 forval x = 2018/2019 {
+  2.                         qui sum base if year == `x',d
+  3.                         global qmed_w_`x' = r(p50)                                    
+>   
+  4.                         
+.                         qui sum renta if year == `x',d
+  5.                         global qmed_r_`x' = r(p50)                                    
+>                           
+  6.                 }
+
+.                 
+.                 * Split sample on quintiles
+.                 forval x = 2018/2019 {
+  2.                         
+.                         ** Total obs 
+.                         gen one_1_`x' = base if year == `x' & base < ${qmed_w_`x'}
+  3.                         gen one_4_`x' = renta if year == `x' & renta < ${qmed_r_`x'}
+  4.                                 
+.                         ** Social group
+.                         
+.                                 *** Men
+.                                 gen bm_1_10_`x' = base if sexo == 0 & year == `x' & base 
+> < ${qmed_w_`x'}
+  5.                                 gen bm_4_10_`x' = renta if sexo == 0 & year == `x' & r
+> enta < ${qmed_r_`x'}                      
+  6.                         
+.                                 *** Women
+.                                 gen bm_1_11_`x' = base if sexo == 1 & year == `x' & base 
+> < ${qmed_w_`x'}
+  7.                                 gen bm_4_11_`x' = renta if sexo == 1 & year == `x' & r
+> enta < ${qmed_r_`x'}                      
+  8. 
+.                                 *** Spanish             
+.                                 gen bm_1_20_`x' = base if espanol == 1 & year == `x' & ba
+> se < ${qmed_w_`x'}
+  9.                                 gen bm_4_20_`x' = renta if espanol == 1 & year == `x' 
+> & renta < ${qmed_r_`x'}                                                                  
+>          
+ 10.                                 
+.                                 *** Foreign                     
+.                                 gen bm_1_21_`x' = base if espanol == 0 & year == `x' & ba
+> se < ${qmed_w_`x'}
+ 11.                                 gen bm_4_21_`x' = renta if espanol == 0 & year == `x' 
+> & renta < ${qmed_r_`x'}                                           
+ 12.                                 
+.                                 *** More than 30y
+.                                 gen bm_1_30_`x' = base if menor_30 == 0 & year == `x' & b
+> ase < ${qmed_w_`x'}
+ 13.                                 gen bm_4_30_`x' = renta if menor_30 == 0 & year == `x'
+>  & renta < ${qmed_r_`x'}                                                                 
+>                                  
+ 14.                                                 
+.                                 *** Less than 30y
+.                                 gen bm_1_31_`x' = base if menor_30 == 1 & year == `x' & b
+> ase < ${qmed_w_`x'}
+ 15.                                 gen bm_4_31_`x' = renta if menor_30 == 1 & year == `x'
+>  & renta < ${qmed_r_`x'}          
+ 16.                                 
+.                         ** Gaps
+.                         
+.                                 *** Gender
+.                                 foreach source in 1 4 {
+ 17.                                         qui sum bm_`source'_10_`x'
+ 18.                                         local men = r(mean)
+ 19.                                 
+.                                         qui sum bm_`source'_11_`x'
+ 20.                                         local women = r(mean)                         
+>   
+ 21.                                 
+.                                         gen gap_gend_`source'_`x' = ((`women'-`men')/`men
+> ')*100*(-1)
+ 22.                                 }       
+ 23.                                 
+.                                 *** Citizenship
+.                                 foreach source in 1 4 {
+ 24.                                         qui sum bm_`source'_21_`x'
+ 25.                                         local foreign = r(mean)
+ 26.                                 
+.                                         qui sum bm_`source'_20_`x'
+ 27.                                         local spanish = r(mean)                       
+>   
+ 28.                                 
+.                                         gen gap_citizen_`source'_`x' = ((`foreign'-`spani
+> sh')/`spanish')*100*(-1)
+ 29.                                 }       
+ 30.                                 
+.                                 *** Age
+.                                 foreach source in 1 4 {
+ 31.                                         qui sum bm_`source'_31_`x'
+ 32.                                         local less_30 = r(mean)
+ 33.                                 
+.                                         qui sum bm_`source'_30_`x'
+ 34.                                         local more_30 = r(mean)                       
+>   
+ 35.                                 
+.                                         gen gap_age_`source'_`x' = ((`less_30'-`more_30')
+> /`more_30')*100*(-1)
+ 36.                                 }                                       
+ 37.                                 
+.                 }       
+(748,994 missing values generated)
+(731,289 missing values generated)
+(873,456 missing values generated)
+(867,594 missing values generated)
+(849,097 missing values generated)
+(837,254 missing values generated)
+(781,350 missing values generated)
+(774,739 missing values generated)
+(941,203 missing values generated)
+(930,109 missing values generated)
+(807,729 missing values generated)
+(798,625 missing values generated)
+(914,824 missing values generated)
+(906,223 missing values generated)
+(745,985 missing values generated)
+(729,017 missing values generated)
+(872,712 missing values generated)
+(867,295 missing values generated)
+(846,832 missing values generated)
+(835,281 missing values generated)
+(781,599 missing values generated)
+(774,955 missing values generated)
+(937,945 missing values generated)
+(927,621 missing values generated)
+(811,254 missing values generated)
+(803,627 missing values generated)
+(908,290 missing values generated)
+(898,949 missing values generated)
+
+. 
+.                 * Collapse and estimate shares of income
+.                 collapse (sum) one_* bm_* (mean) gap_*
+
+.                 
+.                 forval x = 2018/2019 {
+  2.                         foreach source in 1 4 {
+  3.                                 foreach catvar in 10 11 20 21 30 31 {
+  4.                                         gen s_`source'_`catvar'_`x' = (bm_`source'_`ca
+> tvar'_`x'/one_`source'_`x')*100
+  5.                                 }
+  6.                         }
+  7.                 }       
+
+.                 
+.                 keep s_* gap_*  
+
+.                 
+.                 gen ID = 1
+
+.                 
+.                 reshape long s_1_10_ s_1_11_ s_1_20_ s_1_21_ s_1_30_ s_1_31_ s_4_10_ ///
+>                                         s_4_11_ s_4_20_ s_4_21_ s_4_30_ s_4_31_ gap_gend_
+> 1_ ///
+>                                         gap_citizen_1_ gap_age_1_ gap_gend_4_ gap_citizen
+> _4_ gap_age_4_ ///
+>                                         , i(ID) j(year)
+(note: j = 2018 2019)
+
+Data                               wide   ->   long
+-----------------------------------------------------------------------------
+Number of obs.                        1   ->       2
+Number of variables                  37   ->      20
+j variable (2 values)                     ->   year
+xij variables:
+                s_1_10_2018 s_1_10_2019   ->   s_1_10_
+                s_1_11_2018 s_1_11_2019   ->   s_1_11_
+                s_1_20_2018 s_1_20_2019   ->   s_1_20_
+                s_1_21_2018 s_1_21_2019   ->   s_1_21_
+                s_1_30_2018 s_1_30_2019   ->   s_1_30_
+                s_1_31_2018 s_1_31_2019   ->   s_1_31_
+                s_4_10_2018 s_4_10_2019   ->   s_4_10_
+                s_4_11_2018 s_4_11_2019   ->   s_4_11_
+                s_4_20_2018 s_4_20_2019   ->   s_4_20_
+                s_4_21_2018 s_4_21_2019   ->   s_4_21_
+                s_4_30_2018 s_4_30_2019   ->   s_4_30_
+                s_4_31_2018 s_4_31_2019   ->   s_4_31_
+        gap_gend_1_2018 gap_gend_1_2019   ->   gap_gend_1_
+  gap_citizen_1_2018 gap_citizen_1_2019   ->   gap_citizen_1_
+          gap_age_1_2018 gap_age_1_2019   ->   gap_age_1_
+        gap_gend_4_2018 gap_gend_4_2019   ->   gap_gend_4_
+  gap_citizen_4_2018 gap_citizen_4_2019   ->   gap_citizen_4_
+          gap_age_4_2018 gap_age_4_2019   ->   gap_age_4_
+-----------------------------------------------------------------------------
+
+.                 
+.                 ren (s_1_10_ s_1_11_ s_1_20_ s_1_21_ s_1_30_ s_1_31_ s_4_10_ s_4_11_ ///
+>                         s_4_20_ s_4_21_ s_4_30_ s_4_31_ gap_gend_1_ gap_citizen_1_ gap_ag
+> e_1_ ///
+>                         gap_gend_4_ gap_citizen_4_ gap_age_4_) (s1_10 s1_11 s1_20 s1_21 /
+> //
+>                         s1_30 s1_31 s4_10 s4_11 s4_20 s4_21 s4_30 s4_31 gap_gend1 ///
+>                         gap_citizen1 gap_age1 gap_gend4 gap_citizen4 gap_age4)
+
+.                 
+.                 reshape long s1_ s4_, i(ID year) j(type)
+(note: j = 10 11 20 21 30 31)
+
+Data                               wide   ->   long
+-----------------------------------------------------------------------------
+Number of obs.                        2   ->      12
+Number of variables                  20   ->      11
+j variable (6 values)                     ->   type
+xij variables:
+                  s1_10 s1_11 ... s1_31   ->   s1_
+                  s4_10 s4_11 ... s4_31   ->   s4_
+-----------------------------------------------------------------------------
+
+. 
+.                 label define type 10 "Hombres" 11 "Mujeres" 20 "Español" 21 "Extranjeros"
+>  30 "Mayores de 30" 31 "Jóvenes"
+
+.                 label values type type 
+
+. 
+.                 ren (s1_ s4_) (s1 s4)
+
+.                 
+.                 reshape long s gap_gend gap_citizen gap_age, i(ID year type) j(income)   
+>        
+(note: j = 1 4)
+
+Data                               wide   ->   long
+-----------------------------------------------------------------------------
+Number of obs.                       12   ->      24
+Number of variables                  11   ->       8
+j variable (2 values)                     ->   income
+xij variables:
+                                  s1 s4   ->   s
+                    gap_gend1 gap_gend4   ->   gap_gend
+              gap_citizen1 gap_citizen4   ->   gap_citizen
+                      gap_age1 gap_age4   ->   gap_age
+-----------------------------------------------------------------------------
+
+.                 
+.                 label define income 1 "Salarios" 4 "Rentas"
+
+.                 label values income income 
+
+.                 
+.                 foreach var in gap_gend gap_citizen gap_age {
+  2.                         gen `var'18 = `var' if year == 2018
+  3.                         gen `var'18_lab = string(`var'18, "%10,1fc")
+  4.                         
+.                         gen `var'19 = `var' if year == 2019
+  5.                         gen `var'19_lab = string(`var'19, "%10,1fc")                  
+>   
+  6.                 }
+(12 missing values generated)
+(12 missing values generated)
+(12 missing values generated)
+(12 missing values generated)
+(12 missing values generated)
+(12 missing values generated)
+
+.                 
+.                 gen income2 = income + 0.9
+
+.                 
+.                 ** Plot gaps
+.                         *** Women
+.                         # d;
+delimiter now ;
+.                         twoway (bar gap_gend18 income, barw(0.8) bcolor(blue))
+>                                         (bar gap_gend19 income2, barw(0.8) bcolor(green))
+>                                         (scatter gap_gend18 income, mlabel(gap_gend18_lab
+> ) mlabcolor(black) mlabpos(12) mcolor(none))
+>                                         (scatter gap_gend19 income2, mlabel(gap_gend19_la
+> b) mlabcolor(black) mlabpos(12) mcolor(none)),
+>                                         xlabel(1.5 "Salarios" 2.5 " " 3.5 " " 4.5 "Rentas
+> " 5.5 " ")
+>                                         graphregion(color(white))
+>                                         ytitle("")
+>                                         ylabel(0(4)16)
+>                                         legend(order(1 "2018" 2 "2019") size(small) r(1)
+>                                         region(lstyle(none) color(none)))
+>                                         title("Mujeres")
+>                                         name(g1, replace);
+
+.                         #d cr                           
+delimiter now cr
+. 
+.                         *** Foreign
+.                         # d;
+delimiter now ;
+.                         twoway (bar gap_citizen18 income, barw(0.8) bcolor(blue))
+>                                         (bar gap_citizen19 income2, barw(0.8) bcolor(gree
+> n))
+>                                         (scatter gap_citizen18 income, mlabel(gap_citizen
+> 18_lab) mlabcolor(black) mlabpos(12) mcolor(none))
+>                                         (scatter gap_citizen19 income2, mlabel(gap_citize
+> n19_lab) mlabcolor(black) mlabpos(12) mcolor(none)),
+>                                         xlabel(1.5 "Salarios" 2.5 " " 3.5 " " 4.5 "Rentas
+> " 5.5 " ")
+>                                         graphregion(color(white))
+>                                         ytitle("")
+>                                         ylabel(0(5)25)
+>                                         legend(order(1 "2018" 2 "2019") size(small) r(1)
+>                                         region(lstyle(none) color(none)))
+>                                         title("Extranjeros")
+>                                         name(g2, replace);
+
+.                         #d cr                           
+delimiter now cr
+.                                 
+.                         *** Less than 30 years old
+.                         # d;
+delimiter now ;
+.                         twoway (bar gap_age18 income, barw(0.8) bcolor(blue))
+>                                         (bar gap_age19 income2, barw(0.8) bcolor(green))
+>                                         (scatter gap_age18 income, mlabel(gap_age18_lab) 
+> mlabcolor(black) mlabpos(12) mcolor(none))
+>                                         (scatter gap_age19 income2, mlabel(gap_age19_lab)
+>  mlabcolor(black) mlabpos(12) mcolor(none)),
+>                                         xlabel(1.5 "Salarios" 2.5 " " 3.5 " " 4.5 "Rentas
+> " 5.5 " ")
+>                                         graphregion(color(white))
+>                                         ytitle("")
+>                                         ylabel(0(3)12)
+>                                         legend(order(1 "2018" 2 "2019") size(small) r(1)
+>                                         region(lstyle(none) color(none)))
+>                                         title("Jóvenes")
+>                                         name(g3, replace);
+
+.                         #d cr                                                           
+delimiter now cr
+.                         
+.                         *** Combine
+.                         #d;
+delimiter now ;
+.                         grc1leg g1 g2 g3,
+>                                 legendfrom(g1)
+>                                 r(1)    
+>                                 graphregion(color(white));
+
+.                                                 # d cr          
+delimiter now cr
+.                         graph export "$out\Figure 11.png", replace      
+(file E:\Jorgec\ISEAK mw report 2022\01. Descriptives\out\Figure 11.png written in PNG form
+> at)
+
+.                 
+.                 graph drop _all         
+
+.                 
 .                 ** Export excel file
 .                 label var year "Año"
 
@@ -2211,11 +2700,11 @@ delimiter now cr
 
 .                 
 .                 export excel year type income s using "$out\Table 3.xlsx", replace first(
-> varl)
+> varl)  
 file E:\Jorgec\ISEAK mw report 2022\01. Descriptives\out\Table 3.xlsx saved
 
 .         
-.         restore 
+.         restore
 
 .         
 . * End of this dofile

@@ -927,16 +927,266 @@
 			graph export "$out\Figure 10.png", replace	
 		
 		graph drop _all
+	
+	restore	
+
+********************************************************************************
+* L. Figure 11 and Table 3
+********************************************************************************			
+	
+	* Prepare list of missing workers from previous waves	
+	preserve
+	
+		use "$dta/00. Personal data 2017.dta", clear
+
+		merge 1:1 identpers using "$dta/00. Personal data 2018.dta"
+
+			qui unique identpers if _m == 1 & !mi(ffallec)
+			di as txt "Number of workers who passed away in 2017 wave:" %5.0fc `r(unique)'		
+
+			qui unique identpers if _m == 1 & mi(ffallec)
+			di as txt "Number of workers who dissapeared from 2017 wave:" %5.0fc `r(unique)'			
 			
+			keep if _m == 1 & mi(ffallec)
+			
+			gen renta = 0			
+			gen year = 2018
+			
+			keep identpers year renta sexo espanol menor_30
+			
+			tempfile old_wave_17
+			save `old_wave_17', replace
+	
+	restore
+	preserve
+	
+		use "$dta/00. Personal data 2018.dta", clear	
+	
+		sort identpers 
+		merge 1:1 identpers using "$dta/00. Personal data 2019.dta"
+
+			qui unique identpers if _m == 1 & !mi(ffallec)
+			di as txt "Number of workers who passed away in 2018 wave:" %5.0fc `r(unique)'		
+
+			qui unique identpers if _m == 1 & mi(ffallec)
+			di as txt "Number of workers who dissapeared from 2018 wave:" %5.0fc `r(unique)'			
+			
+			keep if _m == 1 & mi(ffallec)
+			drop _m
+
+			gen renta = 0			
+			gen year = 2019
+			
+			keep identpers year renta sexo espanol menor_30
+			
+			tempfile old_wave_18
+			save `old_wave_18', replace
+	
+	restore
+	
+	* Estimate the share for each quintile of the half lowest distribution
+	preserve		
+			keep if !mi(one_18) | !mi(one_19_nov) 
+			append using `old_wave_17'
+			append using `old_wave_18'
+		
+		replace renta = base if mi(renta)
+		
+		forval x = 2018/2019 {
+			qui sum base if year == `x',d
+			global qmed_w_`x' = r(p50)					
+			
+			qui sum renta if year == `x',d
+			global qmed_r_`x' = r(p50)								
+		}
+		
+		* Split sample on quintiles
+		forval x = 2018/2019 {
+			
+			** Total obs 
+			gen one_1_`x' = base if year == `x' & base < ${qmed_w_`x'}
+			gen one_4_`x' = renta if year == `x' & renta < ${qmed_r_`x'}
+				
+			** Social group
+			
+				*** Men
+				gen bm_1_10_`x' = base if sexo == 0 & year == `x' & base < ${qmed_w_`x'}
+				gen bm_4_10_`x' = renta if sexo == 0 & year == `x' & renta < ${qmed_r_`x'}			
+			
+				*** Women
+				gen bm_1_11_`x' = base if sexo == 1 & year == `x' & base < ${qmed_w_`x'}
+				gen bm_4_11_`x' = renta if sexo == 1 & year == `x' & renta < ${qmed_r_`x'}			
+
+				*** Spanish		
+				gen bm_1_20_`x' = base if espanol == 1 & year == `x' & base < ${qmed_w_`x'}
+				gen bm_4_20_`x' = renta if espanol == 1 & year == `x' & renta < ${qmed_r_`x'}										
+				
+				*** Foreign			
+				gen bm_1_21_`x' = base if espanol == 0 & year == `x' & base < ${qmed_w_`x'}
+				gen bm_4_21_`x' = renta if espanol == 0 & year == `x' & renta < ${qmed_r_`x'}						
+				
+				*** More than 30y
+				gen bm_1_30_`x' = base if menor_30 == 0 & year == `x' & base < ${qmed_w_`x'}
+				gen bm_4_30_`x' = renta if menor_30 == 0 & year == `x' & renta < ${qmed_r_`x'}													
+						
+				*** Less than 30y
+				gen bm_1_31_`x' = base if menor_30 == 1 & year == `x' & base < ${qmed_w_`x'}
+				gen bm_4_31_`x' = renta if menor_30 == 1 & year == `x' & renta < ${qmed_r_`x'}		
+				
+			** Gaps
+			
+				*** Gender
+				foreach source in 1 4 {
+					qui sum bm_`source'_10_`x'
+					local men = r(mean)
+				
+					qui sum bm_`source'_11_`x'
+					local women = r(mean)				
+				
+					gen gap_gend_`source'_`x' = ((`women'-`men')/`men')*100*(-1)
+				}	
+				
+				*** Citizenship
+				foreach source in 1 4 {
+					qui sum bm_`source'_21_`x'
+					local foreign = r(mean)
+				
+					qui sum bm_`source'_20_`x'
+					local spanish = r(mean)				
+				
+					gen gap_citizen_`source'_`x' = ((`foreign'-`spanish')/`spanish')*100*(-1)
+				}	
+				
+				*** Age
+				foreach source in 1 4 {
+					qui sum bm_`source'_31_`x'
+					local less_30 = r(mean)
+				
+					qui sum bm_`source'_30_`x'
+					local more_30 = r(mean)				
+				
+					gen gap_age_`source'_`x' = ((`less_30'-`more_30')/`more_30')*100*(-1)
+				}					
+				
+		}	
+
+		* Collapse and estimate shares of income
+		collapse (sum) one_* bm_* (mean) gap_*
+		
+		forval x = 2018/2019 {
+			foreach source in 1 4 {
+				foreach catvar in 10 11 20 21 30 31 {
+					gen s_`source'_`catvar'_`x' = (bm_`source'_`catvar'_`x'/one_`source'_`x')*100
+				}
+			}
+		}	
+		
+		keep s_* gap_*	
+		
+		gen ID = 1
+		
+		reshape long s_1_10_ s_1_11_ s_1_20_ s_1_21_ s_1_30_ s_1_31_ s_4_10_ ///
+					s_4_11_ s_4_20_ s_4_21_ s_4_30_ s_4_31_ gap_gend_1_ ///
+					gap_citizen_1_ gap_age_1_ gap_gend_4_ gap_citizen_4_ gap_age_4_ ///
+					, i(ID) j(year)
+		
+		ren (s_1_10_ s_1_11_ s_1_20_ s_1_21_ s_1_30_ s_1_31_ s_4_10_ s_4_11_ ///
+			s_4_20_ s_4_21_ s_4_30_ s_4_31_ gap_gend_1_ gap_citizen_1_ gap_age_1_ ///
+			gap_gend_4_ gap_citizen_4_ gap_age_4_) (s1_10 s1_11 s1_20 s1_21 ///
+			s1_30 s1_31 s4_10 s4_11 s4_20 s4_21 s4_30 s4_31 gap_gend1 ///
+			gap_citizen1 gap_age1 gap_gend4 gap_citizen4 gap_age4)
+		
+		reshape long s1_ s4_, i(ID year) j(type)
+
+		label define type 10 "Hombres" 11 "Mujeres" 20 "Español" 21 "Extranjeros" 30 "Mayores de 30" 31 "Jóvenes"
+		label values type type 
+
+		ren (s1_ s4_) (s1 s4)
+		
+		reshape long s gap_gend gap_citizen gap_age, i(ID year type) j(income)		
+		
+		label define income 1 "Salarios" 4 "Rentas"
+		label values income income 
+		
+		foreach var in gap_gend gap_citizen gap_age {
+			gen `var'18 = `var' if year == 2018
+			gen `var'18_lab = string(`var'18, "%10,1fc")
+			
+			gen `var'19 = `var' if year == 2019
+			gen `var'19_lab = string(`var'19, "%10,1fc")			
+		}
+		
+		gen income2 = income + 0.9
+		
+		** Plot gaps
+			*** Women
+			# d;
+			twoway (bar gap_gend18 income, barw(0.8) bcolor(blue))
+					(bar gap_gend19 income2, barw(0.8) bcolor(green))
+					(scatter gap_gend18 income, mlabel(gap_gend18_lab) mlabcolor(black) mlabpos(12) mcolor(none))
+					(scatter gap_gend19 income2, mlabel(gap_gend19_lab) mlabcolor(black) mlabpos(12) mcolor(none)),
+					xlabel(1.5 "Salarios" 2.5 " " 3.5 " " 4.5 "Rentas" 5.5 " ")
+					graphregion(color(white))
+					ytitle("")
+					ylabel(0(4)16)
+					legend(order(1 "2018" 2 "2019") size(small) r(1)
+					region(lstyle(none) color(none)))
+					title("Mujeres")
+					name(g1, replace);
+			#d cr				
+
+			*** Foreign
+			# d;
+			twoway (bar gap_citizen18 income, barw(0.8) bcolor(blue))
+					(bar gap_citizen19 income2, barw(0.8) bcolor(green))
+					(scatter gap_citizen18 income, mlabel(gap_citizen18_lab) mlabcolor(black) mlabpos(12) mcolor(none))
+					(scatter gap_citizen19 income2, mlabel(gap_citizen19_lab) mlabcolor(black) mlabpos(12) mcolor(none)),
+					xlabel(1.5 "Salarios" 2.5 " " 3.5 " " 4.5 "Rentas" 5.5 " ")
+					graphregion(color(white))
+					ytitle("")
+					ylabel(0(5)25)
+					legend(order(1 "2018" 2 "2019") size(small) r(1)
+					region(lstyle(none) color(none)))
+					title("Extranjeros")
+					name(g2, replace);
+			#d cr				
+				
+			*** Less than 30 years old
+			# d;
+			twoway (bar gap_age18 income, barw(0.8) bcolor(blue))
+					(bar gap_age19 income2, barw(0.8) bcolor(green))
+					(scatter gap_age18 income, mlabel(gap_age18_lab) mlabcolor(black) mlabpos(12) mcolor(none))
+					(scatter gap_age19 income2, mlabel(gap_age19_lab) mlabcolor(black) mlabpos(12) mcolor(none)),
+					xlabel(1.5 "Salarios" 2.5 " " 3.5 " " 4.5 "Rentas" 5.5 " ")
+					graphregion(color(white))
+					ytitle("")
+					ylabel(0(3)12)
+					legend(order(1 "2018" 2 "2019") size(small) r(1)
+					region(lstyle(none) color(none)))
+					title("Jóvenes")
+					name(g3, replace);
+			#d cr								
+			
+			*** Combine
+			#d;
+			grc1leg g1 g2 g3,
+				legendfrom(g1)
+				r(1)	
+				graphregion(color(white));			
+			# d cr		
+			graph export "$out\Figure 11.png", replace	
+		
+		graph drop _all		
+		
 		** Export excel file
 		label var year "Año"
 		label var type "Colectivo"
 		label var income "Tipo de ingreso"
 		label var s "Composición (%)"
 		
-		export excel year type income s using "$out\Table 3.xlsx", replace first(varl)
+		export excel year type income s using "$out\Table 3.xlsx", replace first(varl)	
 	
-	restore	
+	restore
 	
 * End of this dofile
 cap log close
