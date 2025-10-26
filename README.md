@@ -3,6 +3,6 @@ This repository contains the codes, logfiles and output from an attempt to repli
 
 The original report was elaborated by the ISEAK Fundation and can be found here: https://iseak.eu/publicacion/the-impact-of-the-increase-in-the-minimum-wage-on-inequality-and-employment
 
-To replicate the entire analysis, you can use the "Master dofile.do", but be sure of update the paths first.
+To replicate the entire analysis, you can use the "Master dofile.do", but be sure to update the paths first.
 
-This is not a perfect replicate as some results differ from the report.
+This is not a perfect replicate as some results may differ from the report.
